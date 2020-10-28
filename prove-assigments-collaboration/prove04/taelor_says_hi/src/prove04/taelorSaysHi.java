@@ -12,6 +12,6 @@ public class taelorSaysHi {
         //this is a recent change by brian
         System.out.println("Hello jerks");
         System.out.println("hey");
-        // Just testing things out...
+        // tons of conflicts...
     }
 }
