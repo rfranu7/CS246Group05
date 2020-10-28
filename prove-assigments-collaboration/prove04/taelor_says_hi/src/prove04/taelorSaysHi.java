@@ -6,7 +6,7 @@ public class taelorSaysHi {
 
         System.out.println("Hello, my name is Taelor.");
         System.out.println("Hello Taelor, My name is Randeep.");
-        // this is the recent change
+        // this is the recent change by Aubrey
         System.out.println("This is week 07!");
     }
 }
