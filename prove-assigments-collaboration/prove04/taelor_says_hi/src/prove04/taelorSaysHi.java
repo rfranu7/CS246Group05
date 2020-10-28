@@ -10,5 +10,6 @@ public class taelorSaysHi {
         System.out.println("This is week 07!");
         //this is a recent change by brian
         System.out.println("Hello jerks");
+        System.out.println("hey");
     }
 }
