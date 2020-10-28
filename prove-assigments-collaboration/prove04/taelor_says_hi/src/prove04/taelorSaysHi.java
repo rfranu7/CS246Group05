@@ -9,5 +9,8 @@ public class taelorSaysHi {
         // this is the recent change by Aubrey
         System.out.println("This is week 07!");
         // I am creating conflict
+        //this is a recent change by brian
+        System.out.println("Hello jerks");
+        System.out.println("hey");
     }
 }
