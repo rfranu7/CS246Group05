@@ -9,6 +9,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -16,6 +17,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Company implements FirestoreAccess{
+    // Access a Cloud Firestore instance from your Activity
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
     String companyID;
     String businessName;
 
@@ -27,27 +30,27 @@ public class Company implements FirestoreAccess{
     @Override
     public void WriteData() {
         final String TAG = "Create Company";
-            // Create a new user with a first, middle, and last name
-    Map<String, Object> company = new HashMap<>();
-company.put("companyId", this.companyID);
-company.put("businessName", this.businessName);
+        // Create a new user with a first, middle, and last name
+        Map<String, Object> company = new HashMap<>();
+        company.put("companyId", this.companyID);
+        company.put("businessName", this.businessName);
 
 
-// Add a new document with a generated ID
-db.collection("companies")
-        .add(company)
-        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-        @Override
-        public void onSuccess(DocumentReference documentReference) {
-            Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-        }
-    })
-            .addOnFailureListener(new OnFailureListener() {
-        @Override
-        public void onFailure(@NonNull Exception e) {
-            Log.w(TAG, "Error adding document", e);
-        }
-    });
+        // Add a new document with a generated ID
+        db.collection("companies")
+            .add(company)
+            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            @Override
+            public void onSuccess(DocumentReference documentReference) {
+                Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+            }
+        })
+                .addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.w(TAG, "Error adding document", e);
+            }
+        });
     }
 
     @Override
