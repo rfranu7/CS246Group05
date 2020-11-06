@@ -9,6 +9,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -18,31 +19,42 @@ import java.util.Map;
 
 public class Company implements FirestoreAccess{
     // Access a Cloud Firestore instance from your Activity
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    FirebaseFirestore db;
     String companyID;
     String businessName;
 
-    Company(String businessName){
+    Company() {
+        this.db = FirebaseFirestore.getInstance();
+    }
+
+    public void CompanyName(String businessName) {
         this.companyID = businessName;
         this.businessName = businessName;
-    };
+    }
 
     @Override
-    public void WriteData() {
-        final String TAG = "Create Company";
-        // Create a new user with a first, middle, and last name
+    public void writeData() {
+        final String TAG = "Create Company"; // TAG USED FOR LOGGING
+
+        /*
+            Create a new company:
+            - name and id will be the same so we can search
+            for the business id using the name of the business itself.
+            this would make it easier to attach other classes to the
+            company on the database.
+        */
+
         Map<String, Object> company = new HashMap<>();
         company.put("companyId", this.companyID);
         company.put("businessName", this.businessName);
 
-
-        // Add a new document with a generated ID
         db.collection("companies")
-            .add(company)
-            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            .document(this.companyID)
+            .set(company)
+            .addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
-            public void onSuccess(DocumentReference documentReference) {
-                Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+            public void onSuccess(Void aVoid) {
+                Log.d(TAG, "DocumentSnapshot successfully written!");
             }
         })
                 .addOnFailureListener(new OnFailureListener() {
@@ -54,22 +66,100 @@ public class Company implements FirestoreAccess{
     }
 
     @Override
-    public void ReadData() {
-        final String TAG = "Display Company";
-        db.collection("companies")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                            }
-                        } else {
-                            Log.w(TAG, "Error getting documents.", task.getException());
-                        }
-                    }
-                });
+    public void getAllData() {
+        final String TAG = "Display Companies"; // TAG USED FOR LOGGING
 
+        /*
+            Get All companies on Firestore
+        */
+
+        db.collection("companies")
+            .get()
+            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Log.d(TAG, document.getId() + " => " + document.getData());
+                        }
+                    } else {
+                        Log.w(TAG, "Error getting documents.", task.getException());
+                    }
+                }
+            });
+    }
+
+    @Override
+    public void getDataById() {
+        final String TAG = "Display Company"; // TAG USED FOR LOGGING
+
+        /*
+            Get specific company using the Id provided on Firestore
+        */
+
+        DocumentReference docId = db.collection("companies").document(this.companyID);
+        docId.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.w(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+    }
+
+    @Override
+    public void updateDataById(Map<String, Object> updates) {
+        final String TAG = "Update Company"; // TAG USED FOR LOGGING
+
+        /*
+            Update specific company using the Id provided on Firestore
+        */
+
+        DocumentReference docId = db.collection("companies").document(this.companyID);
+        docId.update(updates)
+            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Log.d(TAG, "DocumentSnapshot successfully updated!");
+                }
+            })
+            .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.w(TAG, "Error updating document", e);
+                }
+            });
+    }
+
+    @Override
+    public void deleteDataById() {
+        final String TAG = "Delete Company"; // TAG USED FOR LOGGING
+
+        /*
+            Update specific company using the Id provided on Firestore
+        */
+
+        db.collection("companies").document(this.companyID)
+            .delete()
+            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                }
+            })
+            .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.w(TAG, "Error deleting document", e);
+                }
+            });
     }
 }
