@@ -2,7 +2,11 @@ package com.example.purpleinventoryapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
 
 import com.google.firebase.FirebaseApp;
 
@@ -15,10 +19,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        FirebaseApp.initializeApp(this);
+        //FirebaseApp.initializeApp(this);
 
-        Company newCompany = new Company();
-        newCompany.CompanyName("Purple Store");
+//        Company newCompany = new Company();
+//        newCompany.CompanyName("Purple Store");
 
         /*
             All Firestore connections are working
@@ -46,5 +50,15 @@ public class MainActivity extends AppCompatActivity {
 
         // Testing Delete Data
         //newCompany.deleteDataById();
+    }
+
+    public void addInventoryItem(View view) {
+        Intent intent = new Intent(this, AddInventory.class);
+        startActivity(intent);
+    }
+
+    public void sendReportActivity(View view) {
+        Intent intent = new Intent(this, SendReport.class);
+        startActivity(intent);
     }
 }

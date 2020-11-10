@@ -4,28 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".SendReport">
 
-    <Button
-        android:id="@+id/button2"
+    <EditText
+        android:id="@+id/reportEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="156dp"
-        android:onClick="addInventoryItem"
-        android:text="ADD INVENTORY"
+        android:layout_marginTop="272dp"
+        android:ems="10"
+        android:hint="@string/reportEmail"
+        android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/sendReportButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="72dp"
-        android:onClick="sendReportActivity"
-        android:text="SEND REPORT"
+        android:layout_marginTop="16dp"
+        android:onClick="sendReport"
+        android:text="Send Report"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2" />
+        app:layout_constraintTop_toBottomOf="@+id/reportEmail" />
 </androidx.constraintlayout.widget.ConstraintLayout>
