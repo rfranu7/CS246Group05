@@ -14,13 +14,14 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Company implements FirestoreAccess{
     // Access a Cloud Firestore instance from your Activity
     FirebaseFirestore db;
-    String companyID;
+    String companyId;
     String businessName;
 
     Company() {
@@ -28,7 +29,7 @@ public class Company implements FirestoreAccess{
     }
 
     public void CompanyName(String businessName) {
-        this.companyID = businessName;
+        this.companyId = businessName;
         this.businessName = businessName;
     }
 
@@ -45,11 +46,12 @@ public class Company implements FirestoreAccess{
         */
 
         Map<String, Object> company = new HashMap<>();
-        company.put("companyId", this.companyID);
+        company.put("companyId", this.companyId);
         company.put("businessName", this.businessName);
+        company.put("created",new Date().getTime());
 
         db.collection("companies")
-            .document(this.companyID)
+            .document(this.companyId)
             .set(company)
             .addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -97,7 +99,7 @@ public class Company implements FirestoreAccess{
             Get specific company using the Id provided on Firestore
         */
 
-        DocumentReference docId = db.collection("companies").document(this.companyID);
+        DocumentReference docId = db.collection("companies").document(this.companyId);
         docId.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -123,7 +125,7 @@ public class Company implements FirestoreAccess{
             Update specific company using the Id provided on Firestore
         */
 
-        DocumentReference docId = db.collection("companies").document(this.companyID);
+        DocumentReference docId = db.collection("companies").document(this.companyId);
         docId.update(updates)
             .addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
@@ -147,7 +149,7 @@ public class Company implements FirestoreAccess{
             Update specific company using the Id provided on Firestore
         */
 
-        db.collection("companies").document(this.companyID)
+        db.collection("companies").document(this.companyId)
             .delete()
             .addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
