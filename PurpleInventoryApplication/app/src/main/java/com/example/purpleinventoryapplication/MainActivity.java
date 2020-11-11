@@ -96,6 +96,15 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void pointOfSaleActivity(View view) {
+        Intent intent = new Intent(this, Sales.class);
+        startActivity(intent);
+    }
+    public void viewInventoryActivity(View view) {
+        Intent intent = new Intent(this, ViewInventory.class);
+        startActivity(intent);
+    }
+
     public void logout(View view) {
         mAuth.signOut();
 
