@@ -16,7 +16,6 @@
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".ForgotPasswordActivity" />
-        <activity android:name=".SignIn" />
         <activity
             android:name=".SendReport"
             android:parentActivityName=".MainActivity">
