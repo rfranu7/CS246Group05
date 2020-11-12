@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">Purple Inventory Application</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="prompt_name">Name</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="itemName">Item Name</string>
+    <string name="quantity">Quantity</string>
+    <string name="unit">Unit</string>
+    <string name="category">Category</string>
+    <string name="price">Price</string>
+    <string name="cost">Cost</string>
+    <string name="buttonAdd">Add Item</string>
+    <string name="reportEmail">example@gmail.com</string>
+    <string name="forgot_password_link">Forgot Password?</string>
+    <string name="sign_up_link">Sign Up</string>
+    <string name="have_account">Already Have An Account?</string>
+    <string name="forgotPasswordDescription">We just need your registered email address to send you the password reset instructions.</string>
+    <string name="resetPassword">Reset Password</string>
+    <string name="goBack">&lt;&lt; Back</string>
+</resources>

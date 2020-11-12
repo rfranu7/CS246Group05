@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "830618077883",
+    "firebase_url": "https://purple-inventory.firebaseio.com",
+    "project_id": "purple-inventory",
+    "storage_bucket": "purple-inventory.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:830618077883:android:996dee46095497611e779e",
+        "android_client_info": {
+          "package_name": "com.example.purpleinventoryapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "830618077883-j9q23bfl258gabc7l4e8atea8h7fhl41.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBf_CuFCJfKnvGdVTbyeM9EMum08uS5iaI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "830618077883-j9q23bfl258gabc7l4e8atea8h7fhl41.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
