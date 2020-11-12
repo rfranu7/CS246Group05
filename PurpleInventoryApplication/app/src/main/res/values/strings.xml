@@ -24,4 +24,6 @@
     <string name="forgotPasswordDescription">We just need your registered email address to send you the password reset instructions.</string>
     <string name="resetPassword">Reset Password</string>
     <string name="goBack">&lt;&lt; Back</string>
+    <string name="start_date">1/1/2020</string>
+    <string name="end_date">1/1/2020</string>
 </resources>
