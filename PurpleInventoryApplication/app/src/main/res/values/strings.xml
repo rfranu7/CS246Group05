@@ -26,4 +26,8 @@
     <string name="goBack">&lt;&lt; Back</string>
     <string name="start_date">1/1/2020</string>
     <string name="end_date">1/1/2020</string>
+    <string name="search_item">Search Item</string>
+    <string name="sale_quantity">Quantity</string>
+    <string name="price_autofill">$0.00</string>
+    <string name="total_autofill">Total: $0.00</string>
 </resources>
