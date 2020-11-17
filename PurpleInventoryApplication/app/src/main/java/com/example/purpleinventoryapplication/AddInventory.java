@@ -9,11 +9,13 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 
 public class AddInventory extends AppCompatActivity implements LifecycleObserver {
 
     private static final String APP_PREFS = "TEMPORARY_FORM_APPLICATION_PREFERENCES";
+    private final String TAG = "ADD INVENTORY ACTIVITY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,5 +85,14 @@ public class AddInventory extends AppCompatActivity implements LifecycleObserver
         categoryField.setText(category);
         priceField.setText(price);
         costField.setText(cost);
+    }
+
+    public void addItem(View button) {
+        if (true){
+            //add code that pushes item to firebase
+            Log.i(TAG, "Inventory item has been added to firebase");
+        }else{
+            Log.w(TAG, "Inventory item has failed to send to firebase");
+        }
     }
 }
