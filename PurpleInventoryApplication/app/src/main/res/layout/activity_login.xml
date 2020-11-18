@@ -120,24 +120,11 @@
         />
 
     <TextView
-        android:id="@+id/forgotPasswordLink"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="120dp"
-        android:fontFamily="@font/open_sans"
-        android:onClick="forgotPasswordLink"
-        android:text="@string/forgot_password_link"
-        android:textColor="@color/colorPrimary"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signInButton" />
-
-    <TextView
         android:id="@+id/signUpLink"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="48dp"
         android:layout_marginEnd="40dp"
         android:fontFamily="@font/open_sans"
         android:onClick="registerUserLink"
@@ -145,7 +132,21 @@
         android:textAlignment="textEnd"
         android:textColor="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/forgotPasswordLink"
+        app:layout_constraintTop_toBottomOf="@+id/signInButton" />
+
+    <TextView
+        android:id="@+id/forgotPasswordLink"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="48dp"
+        android:fontFamily="@font/open_sans"
+        android:onClick="forgotPasswordLink"
+        android:text="@string/forgot_password_link"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signInButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

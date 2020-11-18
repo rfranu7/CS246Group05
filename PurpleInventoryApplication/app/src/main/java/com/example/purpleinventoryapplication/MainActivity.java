@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
             String name = sharedPreferences.getString("name", null);
             String companyId = sharedPreferences.getString("companyId", null);
 
-            if(!userId.equals(uid) || emailAddress == null || name == null || companyId == null) {
+            if(userId == null || userId != uid || emailAddress == null || name == null || companyId == null) {
                 // If any of the three is null, get user details from Fire Store
                 User currUser = new User();
                 currUser.setUserId(uid, this);
