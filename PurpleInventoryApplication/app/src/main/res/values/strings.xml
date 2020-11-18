@@ -17,6 +17,7 @@
     <string name="price">Price</string>
     <string name="cost">Cost</string>
     <string name="buttonAdd">Add Item</string>
+    <string name="buttonEdit">Apply Changes</string>
     <string name="reportEmail">example@gmail.com</string>
     <string name="forgot_password_link">Forgot Password?</string>
     <string name="sign_up_link">Sign Up</string>

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddInventory">
+    tools:context=".EditInventory">
 
     <EditText
         android:id="@+id/cost"
@@ -70,14 +70,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
-<!--    <com.rajasharan.widget.SearchableSpinner-->
-<!--        android:id="@+id/unit"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_gravity="center_horizontal"-->
-<!--        android:padding="5dp"-->
-<!--        app:list="@array/all_languages"-->
-<!--        />-->
+    <!--    <com.rajasharan.widget.SearchableSpinner-->
+    <!--        android:id="@+id/unit"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_gravity="center_horizontal"-->
+    <!--        android:padding="5dp"-->
+    <!--        app:list="@array/all_languages"-->
+    <!--        />-->
 
     <TextView
         android:id="@+id/textView"
@@ -206,8 +206,8 @@
         android:layout_marginBottom="16dp"
         android:background="@drawable/rounded_button"
         android:fontFamily="@font/oswald"
-        android:onClick="addItem"
-        android:text="@string/buttonAdd"
+        android:onClick="applyChanges"
+        android:text="@string/buttonEdit"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"

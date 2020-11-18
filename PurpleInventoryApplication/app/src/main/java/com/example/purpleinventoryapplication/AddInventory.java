@@ -87,12 +87,26 @@ public class AddInventory extends AppCompatActivity implements LifecycleObserver
         costField.setText(cost);
     }
 
-    public void addItem(View button) {
-        if (true){
-            //add code that pushes item to firebase
-            Log.i(TAG, "Inventory item has been added to firebase");
-        }else{
-            Log.w(TAG, "Inventory item has failed to send to firebase");
-        }
+    public void addItem(View view) {
+
+        Log.d(TAG, "addItem Button clicked.");
+
+        EditText nameField = (EditText) findViewById(R.id.itemName);
+        EditText quantityField = (EditText) findViewById(R.id.quantity);
+        EditText unitField = (EditText) findViewById(R.id.unit);
+        EditText categoryField = (EditText) findViewById(R.id.category);
+        EditText priceField = (EditText) findViewById(R.id.price);
+        EditText costField = (EditText) findViewById(R.id.cost);
+
+        String itemName = nameField.getText().toString();
+        String quantity = quantityField.getText().toString();
+        String unit = unitField.getText().toString();
+        String category = categoryField.getText().toString();
+        String price = priceField.getText().toString();
+        String cost = costField.getText().toString();
+
+        Inventory item = new Inventory(this);
+        item.createItem(itemName, price, cost, quantity, unit, category);
+        item.writeData();
     }
 }
