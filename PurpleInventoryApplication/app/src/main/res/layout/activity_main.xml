@@ -20,22 +20,10 @@
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
     <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="160dp"
-        android:layout_height="160dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="72dp"
-        android:background="@drawable/rounded_button"
-        android:onClick="viewInventoryActivity"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/view_inventory_icon" />
-
-    <ImageButton
         android:id="@+id/imageButton2"
         android:layout_width="160dp"
         android:layout_height="160dp"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
         android:background="@drawable/rounded_button"
         android:onClick="addInventoryItem"
@@ -44,6 +32,18 @@
         app:layout_constraintStart_toEndOf="@+id/imageButton"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/add_inventory_icon" />
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/rounded_button"
+        android:onClick="viewInventoryActivity"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/view_inventory_icon" />
 
     <ImageButton
         android:id="@+id/imageButton4"
