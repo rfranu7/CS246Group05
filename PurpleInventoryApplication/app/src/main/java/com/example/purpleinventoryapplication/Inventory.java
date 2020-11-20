@@ -111,15 +111,15 @@ public class Inventory {
     }
 
     public void getAllData() {
+        final Map<String, Object>[] itemMap = new Map[]{new HashMap<>()};
         final String TAG = "Get all inventory Items"; // TAG USED FOR LOGGING
-        db.collection("items")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("items").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
+                                itemMap[0] = document.getData();
                             }
                         } else {
                             Log.w(TAG, "Error getting documents.", task.getException());
