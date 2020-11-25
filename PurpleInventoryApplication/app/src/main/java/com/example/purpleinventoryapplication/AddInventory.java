@@ -19,7 +19,8 @@ import android.widget.ImageView;
 /**Adds inventory item to Firestore collection.
  * @author Team-5
  */
-public class AddInventory extends AppCompatActivity implements LifecycleObserver, View.OnClickListener {
+//public class AddInventory extends AppCompatActivity implements LifecycleObserver, View.OnClickListener {
+public class AddInventory extends AppCompatActivity {
 
     private static final String APP_PREFS = "TEMPORARY_FORM_APPLICATION_PREFERENCES";
     private final String TAG = "ADD INVENTORY ACTIVITY";
@@ -34,23 +35,23 @@ public class AddInventory extends AppCompatActivity implements LifecycleObserver
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_inventory);
 
-        imageView = findViewById(R.id.imageView5);
-        addPhotoButton = findViewById(R.id.imageButton5);
-        addPhotoButton.setOnClickListener(this);
+//        imageView = findViewById(R.id.imageView5);
+//        addPhotoButton = findViewById(R.id.imageButton5);
+//        addPhotoButton.setOnClickListener(this);
 
         addPhotoButton.setVisibility(View.VISIBLE);
 
     }
 
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.imageButton5:
-                Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
-                galleryIntent.setType("image/*");
-                startActivityForResult(galleryIntent, GALLERY_CODE);
-                break;
-        }
-    }
+//    public void onClick(View v) {
+//        switch (v.getId()) {
+//            case R.id.imageButton5:
+//                Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
+//                galleryIntent.setType("image/*");
+//                startActivityForResult(galleryIntent, GALLERY_CODE);
+//                break;
+//        }
+//    }
 
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
