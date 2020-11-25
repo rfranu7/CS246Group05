@@ -1,30 +1,66 @@
 package com.example.purpleinventoryapplication;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 /**Adds inventory item to Firestore collection.
  * @author Team-5
  */
-public class AddInventory extends AppCompatActivity implements LifecycleObserver {
+public class AddInventory extends AppCompatActivity implements LifecycleObserver, View.OnClickListener {
 
     private static final String APP_PREFS = "TEMPORARY_FORM_APPLICATION_PREFERENCES";
     private final String TAG = "ADD INVENTORY ACTIVITY";
+    private static final int GALLERY_CODE = 1;
+    private ImageView imageView;
+    private ImageView addPhotoButton;
+    private Uri imageUri;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_inventory);
 
+        imageView = findViewById(R.id.imageView5);
+        addPhotoButton = findViewById(R.id.imageButton5);
+        addPhotoButton.setOnClickListener(this);
+
+        addPhotoButton.setVisibility(View.VISIBLE);
+
+    }
+
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.imageButton5:
+                Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                galleryIntent.setType("image/*");
+                startActivityForResult(galleryIntent, GALLERY_CODE);
+                break;
+        }
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == GALLERY_CODE && resultCode == RESULT_OK) {
+            if (data != null) {
+                imageUri = data.getData(); // we have the actual path to the image
+                imageView.setImageURI(imageUri);//show image
+                addPhotoButton.setVisibility(View.INVISIBLE);
+            }
+        }
     }
 
     @Override
@@ -122,5 +158,14 @@ public class AddInventory extends AppCompatActivity implements LifecycleObserver
         Inventory item = new Inventory(this);
         item.createItem(itemName, price, cost, quantity, unit, category);
         item.writeData();
+    }
+
+    public void addImage(View view) {
+
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
     }
 }
