@@ -5,6 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+/**
+ * @author Team-05
+ *
+ */
 public class EditInventory extends AppCompatActivity {
 
     @Override

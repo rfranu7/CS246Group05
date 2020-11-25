@@ -17,11 +17,15 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.HashMap;
 import java.util.Map;
 
+/** main page for inventory access.
+ * @author Team-05
+ */
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -86,25 +90,43 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Creates addInventoryItem intent.
+     * @param view
+     */
     public void addInventoryItem(View view) {
         Intent intent = new Intent(this, AddInventory.class);
         startActivity(intent);
     }
-
+    /**
+     * Creates sendReportActivity intent.
+     * @param view
+     */
     public void sendReportActivity(View view) {
         Intent intent = new Intent(this, SendReport.class);
         startActivity(intent);
     }
-
+    /**
+     * Creates pointOfSaleActivity intent.
+     * @param view
+     */
     public void pointOfSaleActivity(View view) {
         Intent intent = new Intent(this, Sales.class);
         startActivity(intent);
     }
+    /**
+     * Creates viewInventoryActivity intent.
+     * @param view
+     */
     public void viewInventoryActivity(View view) {
         Intent intent = new Intent(this, ViewInventory.class);
         startActivity(intent);
     }
 
+    /**
+     * Deletes shared preferences.
+     * @param view
+     */
     public void logout(View view) {
         mAuth.signOut();
 
@@ -115,7 +137,10 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
-
+    /**
+     * Creates editInventory intent.
+     * @param view
+     */
     public void editInventory(View view) {
         Intent intent = new Intent(this, EditInventory.class);
         startActivity(intent);

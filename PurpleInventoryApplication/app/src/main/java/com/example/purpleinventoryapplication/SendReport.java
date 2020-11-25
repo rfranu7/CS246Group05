@@ -8,6 +8,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
+/**
+ * @Author Team-05
+ *
+ */
 public class SendReport extends AppCompatActivity {
 
     private static final String APP_PREFS = "LAST_EMAIL";

@@ -15,6 +15,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+/**
+ * @author Randeep
+ * uses Firebase prebuilt authentication to reset password
+ */
 public class ForgotPasswordActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
@@ -60,6 +64,10 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * returns user to login activity
+     * @param view
+     */
     public void loginLink(View view) {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);

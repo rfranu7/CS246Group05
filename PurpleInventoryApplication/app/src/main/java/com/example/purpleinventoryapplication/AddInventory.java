@@ -12,6 +12,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+/**Adds inventory item to Firestore collection.
+ * @author Team-5
+ */
 public class AddInventory extends AppCompatActivity implements LifecycleObserver {
 
     private static final String APP_PREFS = "TEMPORARY_FORM_APPLICATION_PREFERENCES";
@@ -87,6 +90,17 @@ public class AddInventory extends AppCompatActivity implements LifecycleObserver
         costField.setText(cost);
     }
 
+    /**
+     * adds inventory item to items collection in Firestore.
+     * <p>
+     *     collects inputed textfield
+     *     converts input to strings
+     *     creates instance of inventory class
+     *     calls {@link Inventory#createItem(String name, String price, String cost, String quantity, String unit, String category)}
+     *     calls {@link Inventory#writeData()}
+     *
+     * @param view
+     */
     public void addItem(View view) {
 
         Log.d(TAG, "addItem Button clicked.");

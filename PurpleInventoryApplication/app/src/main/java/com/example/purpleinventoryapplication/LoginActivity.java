@@ -25,6 +25,11 @@ import com.google.firebase.auth.FirebaseUser;
 
 import org.w3c.dom.Text;
 
+/**
+ *  @author Randeep
+ *  uses Firebase prebuilt authentication to log in user
+ *
+ */
 public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
@@ -48,6 +53,11 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * gets username and password from input text
+     * checks login info against data in firestore authentication
+     * @param view
+     */
     public void LoginUser(View view) {
         TextView emailAddressField = (TextView) findViewById(R.id.loginEmailAddress);
         String emailAddress = emailAddressField.getText().toString();
@@ -86,11 +96,18 @@ public class LoginActivity extends AppCompatActivity {
             });
     }
 
+    /**
+     * creates intent for RegisterActivity
+     * @param view
+     */
     public void registerUserLink(View view) {
         Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
     }
-
+    /**
+     * creates intent for ForgotPasswordActivity
+     * @param view
+     */
     public void forgotPasswordLink(View view) {
         Intent intent = new Intent(this, ForgotPasswordActivity.class);
         startActivity(intent);

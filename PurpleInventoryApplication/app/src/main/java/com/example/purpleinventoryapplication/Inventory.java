@@ -21,10 +21,21 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Accesses a Cloud Firestore instance from your Activity
+ */
 public class Inventory {
-    // Access a Cloud Firestore instance from your Activity
+    /**
+     * access to firestore database
+     */
     FirebaseFirestore db;
+    /**
+     * main activity that we want the toast to show
+     */
     Activity activity;
+    /**
+     * all of the edit text fields
+     */
     String ItemName;
     String itemPrice;
     String itemCost;
@@ -32,6 +43,9 @@ public class Inventory {
     String itemUnit;
     String itemCategory;
     String itemImage;
+    /**
+     * saves response from database
+     */
     Boolean success;
 
     Inventory(Activity mActivity) {
@@ -40,6 +54,15 @@ public class Inventory {
         this.activity = mActivity;
     }
 
+    /**
+     * saves input text to inventory item created
+     * @param name
+     * @param price
+     * @param cost
+     * @param quantity
+     * @param unit
+     * @param category
+     */
     public void createItem(String name, String price, String cost, String quantity, String unit, String category) {
         this.ItemName = name;
         this.itemPrice = price;
@@ -49,6 +72,11 @@ public class Inventory {
         this.itemCategory = category;
     }
 
+    /**
+     * creates map for variables of the item
+     * writes variables to items collection firestore database
+     * notifies user with toast if success or failure
+     */
     public void writeData() {
         final String TAG = "Create Item"; // TAG USED FOR LOGGING
 
@@ -110,6 +138,9 @@ public class Inventory {
                 });
     }
 
+    /**
+     * gets each item from Items collection
+     */
     public void getAllData() {
         final Map<String, Object>[] itemMap = new Map[]{new HashMap<>()};
         final String TAG = "Get all inventory Items"; // TAG USED FOR LOGGING
@@ -129,6 +160,10 @@ public class Inventory {
 
     }
 
+    /**
+     * gets Item from Items collection by Id.
+     * @param itemId
+     */
     public void getDataById(String itemId) {
         final String TAG = "Display Inventory"; // TAG USED FOR LOGGING
 
@@ -185,6 +220,10 @@ public class Inventory {
         });
     }
 
+    /**
+     * Updates Items collection in Firestore database based on ID
+     * @param updates
+     */
     public void updateDataById(Map<String, Object> updates) {
         final String TAG = "Update Data"; // TAG USED FOR LOGGING
 
@@ -210,6 +249,10 @@ public class Inventory {
 
     }
 
+    /**
+     * Deletes Items collection in Firestore database based on ID
+     * @param itemId
+     */
     public void deleteDataById(String itemId) {
         final String TAG = "Delete Inventory"; // TAG USED FOR LOGGING
         db.collection("Items").document(itemId)

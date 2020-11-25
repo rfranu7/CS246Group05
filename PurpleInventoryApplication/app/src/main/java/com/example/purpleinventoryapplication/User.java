@@ -19,6 +19,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * assigns user to a company
+ * saves user to firestore
+ */
 public class User implements FirestoreAccess {
 
     // Access a Cloud Firestore instance from your Activity
@@ -34,6 +38,13 @@ public class User implements FirestoreAccess {
         this.db = FirebaseFirestore.getInstance();
     }
 
+    /**
+     * Creates user objects from input text
+     * @param userId
+     * @param emailAddress
+     * @param name
+     * @param companyId
+     */
     public void createUser(String userId, String emailAddress, String name, String companyId) {
         this.userId = userId;
         this.emailAddress = emailAddress;
@@ -41,11 +52,21 @@ public class User implements FirestoreAccess {
         this.companyId = companyId;
     }
 
+    /**
+     * assigns userID to user object
+     * gets userdata from firestore collection
+     * @param userId
+     * @param activity
+     */
     public void setUserId(String userId, Activity activity) {
         this.userId = userId;
         this.activity = activity;
     }
 
+    /**
+     * Creates hashmap of variables and opjects
+     * saves map to firestore collection
+     */
     @Override
     public void writeData() {
         final String TAG = "Create User"; // TAG USED FOR LOGGING
@@ -84,13 +105,13 @@ public class User implements FirestoreAccess {
         return;
     }
 
+    /**
+     *  Get specific user using the Id provided on Fire Store
+     */
     @Override
     public void getDataById() {
         final String TAG = "Display user"; // TAG USED FOR LOGGING
 
-        /*
-            Get specific user using the Id provided on Fire Store
-        */
 
         DocumentReference docId = db.collection("users").document(this.userId);
         docId.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

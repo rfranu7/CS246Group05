@@ -8,6 +8,9 @@ import android.widget.GridView;
 
 import java.util.List;
 
+/**
+ * allows user to see all items in table format using GridView adapter
+ */
 public class ViewInventory extends AppCompatActivity {
     private final String TAG = "VIEW INVENTORY ACTIVITY";
 

@@ -23,6 +23,10 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author randeep
+ * uses firebase authentication to create a new user
+ */
 public class RegisterActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
@@ -46,6 +50,11 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Gets email, password, and name from input text
+     * puts login data into firebase authentication
+     * @param view
+     */
     public void registerUser(View view) {
         TextView emailAddressField = (TextView) findViewById(R.id.registerEmailAddress);
         final String emailAddress = emailAddressField.getText().toString();
@@ -100,6 +109,10 @@ public class RegisterActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * creates intent for loginActivity
+     * @param view
+     */
     public void loginLink(View view) {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);

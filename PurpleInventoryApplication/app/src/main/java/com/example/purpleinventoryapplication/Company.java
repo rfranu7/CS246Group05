@@ -18,32 +18,52 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author Team-05
+ *
+ */
 public class Company implements FirestoreAccess{
     // Access a Cloud Firestore instance from your Activity
+    /**
+     * access to firestore database
+     */
     FirebaseFirestore db;
+    /**
+     * company ID to access firebase
+     */
     String companyId;
+    /**
+     * Business name linked to company ID
+     */
     String businessName;
 
     Company() {
         this.db = FirebaseFirestore.getInstance();
     }
 
+    /**
+     * creates a company
+     * @param businessName
+     */
     public void CompanyName(String businessName) {
         this.companyId = businessName;
         this.businessName = businessName;
     }
 
+    /**
+     * @author Team-05
+     *
+     * <p>
+     *   Create a new company:
+     *   name and id will be the same so we can search
+     *   for the business id using the name of the business itself.
+     *   this would make it easier to attach other classes to the
+     *   company on the database.
+     *
+     */
     @Override
     public void writeData() {
         final String TAG = "Create Company"; // TAG USED FOR LOGGING
-
-        /*
-            Create a new company:
-            - name and id will be the same so we can search
-            for the business id using the name of the business itself.
-            this would make it easier to attach other classes to the
-            company on the database.
-        */
 
         Map<String, Object> company = new HashMap<>();
         company.put("companyId", this.companyId);
@@ -67,12 +87,17 @@ public class Company implements FirestoreAccess{
         });
     }
 
+    /**
+     * @author Team-05
+     *
+     *  Get All companies on Firestore
+     */
     @Override
     public void getAllData() {
         final String TAG = "Display Companies"; // TAG USED FOR LOGGING
 
         /*
-            Get All companies on Firestore
+            Get All records in companies collection
         */
 
         db.collection("companies")
@@ -91,6 +116,9 @@ public class Company implements FirestoreAccess{
             });
     }
 
+    /**
+     * gets company based on companyID
+     */
     @Override
     public void getDataById() {
         final String TAG = "Display Company"; // TAG USED FOR LOGGING
@@ -117,6 +145,12 @@ public class Company implements FirestoreAccess{
         });
     }
 
+    /**
+     * @author Team-05
+     * updates data in firestore collection by ID
+     * @param updates
+     *
+     */
     @Override
     public void updateDataById(Map<String, Object> updates) {
         final String TAG = "Update Company"; // TAG USED FOR LOGGING
@@ -141,6 +175,9 @@ public class Company implements FirestoreAccess{
             });
     }
 
+    /**
+     * Deletes data from firestore based on ID
+     */
     @Override
     public void deleteDataById() {
         final String TAG = "Delete Company"; // TAG USED FOR LOGGING
