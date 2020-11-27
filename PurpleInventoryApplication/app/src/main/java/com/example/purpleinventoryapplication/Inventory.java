@@ -17,8 +17,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -47,6 +49,7 @@ public class Inventory {
      * saves response from database
      */
     Boolean success;
+    List<Map<String, Object>> itemList;
 
     Inventory(Activity mActivity) {
         this.db = FirebaseFirestore.getInstance();
@@ -142,22 +145,25 @@ public class Inventory {
      * gets each item from Items collection
      */
     public void getAllData() {
-        final Map<String, Object>[] itemMap = new Map[]{new HashMap<>()};
+        final List<Map<String, Object>> itemList = new ArrayList<>();
+        //final Map<String, Object>[] itemMap = new Map[]{new HashMap<>()};
         final String TAG = "Get all inventory Items"; // TAG USED FOR LOGGING
         db.collection("items").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
+                            int i = 0;
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
-                                itemMap[0] = document.getData();
+                                itemList.add(i, document.getData());
+                                i++;
                             }
+                            Inventory.this.itemList = itemList;
                         } else {
                             Log.w(TAG, "Error getting documents.", task.getException());
                         }
                     }
                 });
-
     }
 
     /**
