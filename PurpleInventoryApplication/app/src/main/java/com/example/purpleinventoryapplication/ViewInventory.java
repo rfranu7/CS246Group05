@@ -46,6 +46,8 @@ public class ViewInventory extends AppCompatActivity {
 
                 List<Map<String, Object>> data = response;
 
+                Log.d(TAG, data.toString());
+
                 expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
                 expandableListDetail = ExpandableListDataPump.getData(data);
                 expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());

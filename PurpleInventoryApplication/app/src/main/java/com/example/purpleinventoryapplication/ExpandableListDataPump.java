@@ -28,6 +28,7 @@ public class ExpandableListDataPump {
 
         for(int i=0; i < data.size(); i++) {
             Log.d(TAG, "Start looping");
+            String ID = data.get(i).get("ID").toString();
             String itemName = data.get(i).get("ItemName").toString();
             String quantity = data.get(i).get("itemQuantity").toString();
             String category = data.get(i).get("itemCategory").toString();
@@ -36,7 +37,7 @@ public class ExpandableListDataPump {
             String price = data.get(i).get("itemPrice").toString();
 
             List<String> item = new ArrayList<String>();
-            item.add("ID: "+data.get(i));
+            item.add("ID: "+ID);
             item.add("Quantity: "+quantity);
             item.add("Category: "+category);
             item.add("Unit: "+unit);

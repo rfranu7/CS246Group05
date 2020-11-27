@@ -161,7 +161,9 @@ public class Inventory {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Log.d(TAG, document.getId() + " => " + document.getData());
-                        itemList.add(document.getData());
+                        Map<String, Object> itemMap = document.getData();
+                        itemMap.put("ID", document.getId());
+                        itemList.add(itemMap);
                     }
                     mCallBack.onSuccess(itemList);
                 } else {
