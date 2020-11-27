@@ -6,15 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".ViewInventory">
 
-    <GridView
-        android:id="@+id/inventoryTable"
-        android:layout_width="411dp"
-        android:layout_height="733dp"
-        android:numColumns="7"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+    <ExpandableListView
+        android:id="@+id/expandableListView"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
+        android:divider="@android:color/darker_gray"
+        android:dividerHeight="0.5dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

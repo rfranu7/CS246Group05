@@ -17,6 +17,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -27,9 +29,7 @@ import java.util.Map;
  * Accesses a Cloud Firestore instance from your Activity
  */
 public class Inventory {
-    /**
-     * access to firestore database
-     */
+    /** access to firestore database */
     FirebaseFirestore db;
     /**
      * main activity that we want the toast to show
@@ -49,7 +49,8 @@ public class Inventory {
      * saves response from database
      */
     Boolean success;
-    List<Map<String, Object>> itemList;
+    private VolleyOnEventListener<JSONObject> mCallBack;
+    public List<Map<String, Object>> itemList;
 
     Inventory(Activity mActivity) {
         this.db = FirebaseFirestore.getInstance();
@@ -143,27 +144,31 @@ public class Inventory {
 
     /**
      * gets each item from Items collection
+     * parameter is a callback function that would allow
+     * us to transfer the data taken from the db to another
+     * activity.
+     * @param mCallback
      */
-    public void getAllData() {
+    public void getAllData(VolleyOnEventListener mCallback) {
+        this.mCallBack = mCallback;
         final List<Map<String, Object>> itemList = new ArrayList<>();
-        //final Map<String, Object>[] itemMap = new Map[]{new HashMap<>()};
         final String TAG = "Get all inventory Items"; // TAG USED FOR LOGGING
+
+
         db.collection("items").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            int i = 0;
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                itemList.add(i, document.getData());
-                                i++;
-                            }
-                            Inventory.this.itemList = itemList;
-                        } else {
-                            Log.w(TAG, "Error getting documents.", task.getException());
-                        }
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Log.d(TAG, document.getId() + " => " + document.getData());
+                        itemList.add(document.getData());
                     }
-                });
+                    mCallBack.onSuccess(itemList);
+                } else {
+                    Log.w(TAG, "Error getting documents.", task.getException());
+                }
+            }
+        });
     }
 
     /**
