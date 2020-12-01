@@ -8,35 +8,19 @@
 
     <EditText
         android:id="@+id/cost"
-        android:layout_width="300dp"
+        android:layout_width="140dp"
         android:layout_height="45dp"
+        android:layout_marginTop="4dp"
         android:background="@drawable/edit_text_border"
         android:ems="10"
         android:fontFamily="@font/open_sans"
         android:hint="@string/cost"
         android:inputType="textPersonName"
         android:paddingLeft="5dp"
-        app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.52"
+        app:layout_constraintStart_toEndOf="@+id/price"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
-
-    <EditText
-        android:id="@+id/price"
-        android:layout_width="300dp"
-        android:layout_height="45dp"
-        android:background="@drawable/edit_text_border"
-        android:ems="10"
-        android:fontFamily="@font/open_sans"
-        android:hint="@string/price"
-        android:inputType="textPersonName"
-        android:paddingLeft="5dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView6"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
     <EditText
         android:id="@+id/category"
@@ -50,9 +34,45 @@
         android:paddingLeft="5dp"
         app:layout_constraintBottom_toTopOf="@+id/textView7"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintHorizontal_bias="0.485"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="140dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:fontFamily="@font/open_sans"
+        android:text="Cost"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/category" />
+
+    <EditText
+        android:id="@+id/price"
+        android:layout_width="140dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/edit_text_border"
+        android:ems="10"
+        android:fontFamily="@font/open_sans"
+        android:hint="@string/price"
+        android:inputType="textPersonName"
+        android:paddingLeft="5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+    <!--    <com.rajasharan.widget.SearchableSpinner-->
+    <!--        android:id="@+id/unit"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_gravity="center_horizontal"-->
+    <!--        android:padding="5dp"-->
+    <!--        app:list="@array/all_languages"-->
+    <!--        />-->
 
     <EditText
         android:id="@+id/unit"
@@ -66,30 +86,20 @@
         android:paddingLeft="5dp"
         app:layout_constraintBottom_toTopOf="@+id/textView5"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.513"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
-
-<!--    <com.rajasharan.widget.SearchableSpinner-->
-<!--        android:id="@+id/unit"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_gravity="center_horizontal"-->
-<!--        android:padding="5dp"-->
-<!--        app:list="@array/all_languages"-->
-<!--        />-->
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="295dp"
         android:layout_height="25dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="100dp"
         android:fontFamily="@font/open_sans"
         android:text="Item Name"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/itemName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
@@ -106,7 +116,7 @@
         android:paddingLeft="5dp"
         app:layout_constraintBottom_toTopOf="@+id/textView3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintHorizontal_bias="0.477"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -171,38 +181,23 @@
         app:layout_constraintTop_toBottomOf="@+id/unit" />
 
     <TextView
-        android:id="@+id/textView6"
-        android:layout_width="295dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="12dp"
-        android:fontFamily="@font/open_sans"
-        android:text="Cost"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/cost"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/price" />
-
-    <TextView
         android:id="@+id/textView7"
-        android:layout_width="295dp"
+        android:layout_width="140dp"
         android:layout_height="25dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="@font/open_sans"
         android:text="Price"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/price"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintEnd_toStartOf="@+id/textView6"
+        app:layout_constraintHorizontal_bias="0.616"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/category" />
 
     <Button
         android:id="@+id/button"
         android:layout_width="200dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="24dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/rounded_button"
         android:fontFamily="@font/oswald"
@@ -214,6 +209,31 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cost" />
+        app:layout_constraintTop_toBottomOf="@+id/cost"
+        app:layout_constraintVertical_bias="0.513" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="137dp"
+        android:layout_height="95dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="?android:attr/galleryItemBackground" />
+
+    <ImageButton
+        android:id="@+id/imageButton5"
+        android:layout_width="37dp"
+        android:layout_height="37dp"
+        android:onClick="onClick"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView5"
+        app:layout_constraintEnd_toEndOf="@+id/imageView5"
+        app:layout_constraintStart_toStartOf="@+id/imageView5"
+        app:layout_constraintTop_toTopOf="@+id/imageView5"
+        app:srcCompat="@android:drawable/ic_menu_camera" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
