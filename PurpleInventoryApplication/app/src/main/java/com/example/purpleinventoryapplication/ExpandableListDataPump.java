@@ -37,13 +37,12 @@ public class ExpandableListDataPump {
             String price = data.get(i).get("itemPrice").toString();
 
             List<String> item = new ArrayList<String>();
-            item.add("ID: "+ID);
+            item.add(ID);
             item.add("Quantity: "+quantity);
             item.add("Category: "+category);
             item.add("Unit: "+unit);
             item.add("Cost: "+cost);
             item.add("Price: "+price);
-            // Add button to edit
 
             expandableListDetail.put(itemName+" "+unit, item);
         }

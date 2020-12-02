@@ -80,7 +80,7 @@
     <!--        />-->
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/itemNameLabel"
         android:layout_width="295dp"
         android:layout_height="25dp"
         android:layout_marginTop="16dp"
@@ -108,7 +108,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/itemNameLabel" />
 
     <TextView
         android:id="@+id/textView3"
