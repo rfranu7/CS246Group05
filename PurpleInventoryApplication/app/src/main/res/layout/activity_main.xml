@@ -66,7 +66,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="40dp"
         android:background="@drawable/rounded_button"
-        android:onClick="pointOfSaleActivity"
+        android:onClick="takeInventoryActivity"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
         app:srcCompat="@drawable/pos_icon" />
@@ -121,7 +121,7 @@
         android:layout_marginStart="65dp"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/oswald"
-        android:text="POINT OF SALE"
+        android:text="TAKE INVENTORY"
         android:textAlignment="center"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -139,15 +139,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
-    <TextView
-        android:id="@+id/textView16"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:onClick="sampleInventory"
-        android:text="Sample"
-        app:layout_constraintEnd_toStartOf="@+id/textView"
-        app:layout_constraintHorizontal_bias="0.736"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView10" />
 </androidx.constraintlayout.widget.ConstraintLayout>

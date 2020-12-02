@@ -110,8 +110,8 @@ public class MainActivity extends AppCompatActivity {
      * Creates pointOfSaleActivity intent.
      * @param view
      */
-    public void pointOfSaleActivity(View view) {
-        Intent intent = new Intent(this, Sales.class);
+    public void takeInventoryActivity(View view) {
+        Intent intent = new Intent(this, TakeInventory.class);
         startActivity(intent);
     }
     /**
