@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -35,7 +36,6 @@ public class TakeInventory extends AppCompatActivity {
 
         Inventory inventory = new Inventory(this);
         inventory.getAllData(new VolleyOnEventListener() {
-            @SuppressLint("WrongViewCast")
             @Override
             public void onSuccess(List response) {
                 Log.d(TAG, "Getting data successful");
@@ -44,9 +44,9 @@ public class TakeInventory extends AppCompatActivity {
 
                 Log.d(TAG, data.toString());
 
-                myListView = (ListView) findViewById(R.id.myListView);
+                myListView = findViewById(R.id.myListView);
                 takeInventoryDetail = TakeInventoryDataPump.getData(data);
-                takeInventoryAdapter = new TakeInventoryAdapter(this, takeInventoryDetail);
+                takeInventoryAdapter = new TakeInventoryAdapter(takeInventoryDetail);
                 myListView.setAdapter(takeInventoryAdapter);
 
             }
