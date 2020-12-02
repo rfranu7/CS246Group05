@@ -1,11 +1,15 @@
 package com.example.purpleinventoryapplication;
 
 import android.app.Activity;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -83,11 +87,6 @@ public class Inventory {
      */
     public void writeData() {
         final String TAG = "Create Item"; // TAG USED FOR LOGGING
-
-        /*
-            Create a new item:
-            -
-        */
 
         Map<String, Object> item = new HashMap<>();
         item.put("ItemName", this.ItemName);
@@ -180,10 +179,6 @@ public class Inventory {
     public void getDataById(String itemId) {
         final String TAG = "Display Inventory"; // TAG USED FOR LOGGING
 
-        /*
-            Get specific company using the Id provided on Firestore
-        */
-
         DocumentReference docId = db.collection("items").document(itemId);
         docId.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -212,11 +207,11 @@ public class Inventory {
                                     EditText costField = (EditText) Inventory.this.activity.findViewById(R.id.cost);
 
                                     nameField.setText(Inventory.this.ItemName);
-                                    quantityField.setText(Inventory.this.itemPrice);
-                                    unitField.setText(Inventory.this.itemCost);
-                                    categoryField.setText(Inventory.this.itemQuantity);
-                                    priceField.setText(Inventory.this.itemUnit);
-                                    costField.setText(Inventory.this.itemCategory);
+                                    quantityField.setText(Inventory.this.itemQuantity);
+                                    unitField.setText(Inventory.this.itemUnit);
+                                    categoryField.setText(Inventory.this.itemCategory);
+                                    priceField.setText(Inventory.this.itemPrice);
+                                    costField.setText(Inventory.this.itemCost);
 
                                     Log.i(TAG, "fields have been updated.");
                                 }
@@ -234,32 +229,104 @@ public class Inventory {
     }
 
     /**
-     * Updates Items collection in Firestore database based on ID
-     * @param updates
+     * gets Item from Items collection by Id.
+     * @param itemId
      */
-    public void updateDataById(Map<String, Object> updates) {
+    public void getDataName(String itemId) {
+        final String TAG = "Display Inventory"; // TAG USED FOR LOGGING
+        final String id = itemId;
+
+        DocumentReference docId = db.collection("items").document(id);
+        docId.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    final DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.i(TAG, "DocumentSnapshot data: " + document.getData());
+                        activity.runOnUiThread(new Runnable() {
+                            public void run() {
+                                String ItemName = document.get("ItemName").toString();
+                                String itemUnit = document.get("itemUnit").toString();
+
+                                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        switch (which){
+                                            case DialogInterface.BUTTON_POSITIVE:
+                                                Log.d(TAG, "yes clicked.");
+                                                deleteDataById(id);
+                                                break;
+
+                                            case DialogInterface.BUTTON_NEGATIVE:
+                                                dialog.dismiss();
+                                                break;
+                                        }
+                                    }
+                                };
+
+                                AlertDialog alert = new AlertDialog.Builder(Inventory.this.activity).create();
+                                alert.setTitle("Delete Item");
+                                alert.setMessage("Are you sure you want to delete "+ItemName+" "+itemUnit+"?");
+                                alert.setButton(AlertDialog.BUTTON_POSITIVE, "YES", dialogClickListener);
+                                alert.setButton(AlertDialog.BUTTON_NEGATIVE, "NO", dialogClickListener);
+                                alert.show();
+                            }
+                        });
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.w(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+    }
+
+    /**
+     * Updates Items collection in Firestore database based on ID
+     */
+    public void updateDataById(String itemId) {
         final String TAG = "Update Data"; // TAG USED FOR LOGGING
 
+        Map<String, Object> item = new HashMap<>();
+        item.put("ItemName", this.ItemName);
+        item.put("itemPrice", this.itemPrice);
+        item.put("itemCost", this.itemCost);
+        item.put("itemQuantity", this.itemQuantity);
+        item.put("itemUnit", this.itemUnit);
+        item.put("itemCategory", this.itemCategory);
+        //item.put("itemImage", this.itemImage);
+        item.put("dateUpdated", new Date().getTime());
+
         //pasted from firebase docs
-//        DocumentReference washingtonRef = db.collection("items").document(String.valueOf(updates));
-//
-////
-//        washingtonRef
-//                .update("capital", true)
-//                .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                    @Override
-//                    public void onSuccess(Void aVoid) {
-//                        Log.d(TAG, "DocumentSnapshot successfully updated!");
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        Log.w(TAG, "Error updating document", e);
-//                    }
-//                });
+        DocumentReference itemRef = db.collection("items").document(itemId);
 
-
+        itemRef.update(item)
+               .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully updated!");
+                        activity.runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(activity, "Item successfully updated.", Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(activity, ViewInventory.class);
+                                activity.startActivity(intent);
+                            }
+                        });
+                    }
+               })
+               .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error updating document", e);
+                        activity.runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(Inventory.this.activity,"Item update failed." ,Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+               });
     }
 
     /**
@@ -267,21 +334,35 @@ public class Inventory {
      * @param itemId
      */
     public void deleteDataById(String itemId) {
-        final String TAG = "Delete Inventory"; // TAG USED FOR LOGGING
-        db.collection("Items").document(itemId)
-                .delete()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "DocumentSnapshot successfully deleted!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error deleting document", e);
-                    }
-                });
+        final String TAG = "Delete Item"; // TAG USED FOR LOGGING
 
+        db.collection("items").document(itemId)
+            .delete()
+            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                    activity.runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(Inventory.this.activity,"Item successfully deleted." ,Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(activity, ViewInventory.class);
+                            activity.startActivity(intent);
+                        }
+                    });
+                }
+            })
+            .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.w(TAG, "Error deleting document", e);
+                    activity.runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(Inventory.this.activity,"Item deletion failed." ,Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(activity, ViewInventory.class);
+                            activity.startActivity(intent);
+                        }
+                    });
+                }
+            });
     }
 }

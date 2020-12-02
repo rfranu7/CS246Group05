@@ -1,11 +1,14 @@
 package com.example.purpleinventoryapplication;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.GridView;
@@ -53,23 +56,31 @@ public class ViewInventory extends AppCompatActivity {
                 expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());
                 expandableListAdapter = new CustomExpandableListAdapter(ViewInventory.this, expandableListTitle, expandableListDetail);
                 expandableListView.setAdapter(expandableListAdapter);
-
-                expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-
-                    @Override
-                    public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                        Toast.makeText(
-                                getApplicationContext(),
-                                expandableListTitle.get(groupPosition)
-                                        + " -> "
-                                        + expandableListDetail.get(
-                                        expandableListTitle.get(groupPosition)).get(
-                                        childPosition), Toast.LENGTH_SHORT
-                        ).show();
-                        return false;
-                    }
-                });
             }
         });
+    }
+
+    /**
+     * Creates editInventory intent.
+     * @param view
+     */
+    public void editInventory(View view) {
+        Button editBtn = (Button) view.findViewById(R.id.buttonEdit);
+        Object tag = editBtn.getTag();
+        Log.d(TAG, tag.toString());
+        Intent intent = new Intent(ViewInventory.this, EditInventory.class);
+        intent.putExtra("itemId", tag.toString());
+        startActivity(intent);
+    }
+
+    /**
+     * Creates deleteInventory intent.
+     * @param view
+     */
+    public void deleteInventory(View view) {
+        Button delBtn = (Button) view.findViewById(R.id.buttonDelete);
+        Object tag = delBtn.getTag();
+        Inventory item = new Inventory(this);
+        item.getDataName(tag.toString());
     }
 }

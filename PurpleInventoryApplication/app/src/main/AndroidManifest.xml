@@ -14,10 +14,10 @@
         <activity
             android:name=".EditInventory"
             android:label="Edit Inventory"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".ViewInventory">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".ViewInventory" />
         </activity>
         <activity
             android:name=".ViewInventory"
@@ -28,8 +28,8 @@
                 android:value=".MainActivity" />
         </activity>
         <activity
-            android:name=".Sales"
-            android:label="Sales"
+            android:name=".TakeInventory"
+            android:label="Take Inventory"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

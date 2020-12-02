@@ -96,10 +96,6 @@ public class Company implements FirestoreAccess{
     public void getAllData() {
         final String TAG = "Display Companies"; // TAG USED FOR LOGGING
 
-        /*
-            Get All records in companies collection
-        */
-
         db.collection("companies")
             .get()
             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -122,10 +118,6 @@ public class Company implements FirestoreAccess{
     @Override
     public void getDataById() {
         final String TAG = "Display Company"; // TAG USED FOR LOGGING
-
-        /*
-            Get specific company using the Id provided on Firestore
-        */
 
         DocumentReference docId = db.collection("companies").document(this.companyId);
         docId.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -155,10 +147,6 @@ public class Company implements FirestoreAccess{
     public void updateDataById(Map<String, Object> updates) {
         final String TAG = "Update Company"; // TAG USED FOR LOGGING
 
-        /*
-            Update specific company using the Id provided on Firestore
-        */
-
         DocumentReference docId = db.collection("companies").document(this.companyId);
         docId.update(updates)
             .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -181,10 +169,6 @@ public class Company implements FirestoreAccess{
     @Override
     public void deleteDataById() {
         final String TAG = "Delete Company"; // TAG USED FOR LOGGING
-
-        /*
-            Update specific company using the Id provided on Firestore
-        */
 
         db.collection("companies").document(this.companyId)
             .delete()
