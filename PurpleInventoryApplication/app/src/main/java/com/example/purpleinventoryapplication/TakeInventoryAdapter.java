@@ -69,6 +69,7 @@ public class TakeInventoryAdapter extends BaseAdapter {
         listTitleTextView.setText(listTitle);
 
         EditText editQty = (EditText) convertView.findViewById(R.id.editQuantity);
+        editQty.setTag(itemId);
         editQty.setText(itemQty);
 
         Button addBtn = (Button) convertView.findViewById(R.id.addInventory);

@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
      * @param view
      */
     public void takeInventoryActivity(View view) {
-        Intent intent = new Intent(this, TakeInventory.class);
+        Intent intent = new Intent(this, CategoryList.class);
         startActivity(intent);
     }
     /**

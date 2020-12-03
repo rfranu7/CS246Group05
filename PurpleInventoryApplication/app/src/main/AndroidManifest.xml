@@ -11,6 +11,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".CategoryList"
+            android:label="Categories"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
         <activity
             android:name=".EditInventory"
             android:label="Edit Inventory"
@@ -30,7 +37,7 @@
         <activity
             android:name=".TakeInventory"
             android:label="Take Inventory"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".CategoryList">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />

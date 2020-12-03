@@ -365,4 +365,30 @@ public class Inventory {
                 }
             });
     }
+
+    public void getDataByCategory(String category, VolleyOnEventListener mCallback){
+        final String TAG = "Get Item by Category"; // TAG USED FOR LOGGING
+        this.mCallBack = mCallback;
+        final List<Map<String, Object>> itemList = new ArrayList<>();
+
+        db.collection("items")
+            .whereEqualTo("itemCategory", category)
+            .get()
+            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Log.d(TAG, document.getId() + " => " + document.getData());
+                            Map<String, Object> itemMap = document.getData();
+                            itemMap.put("ID", document.getId());
+                            itemList.add(itemMap);
+                        }
+                        mCallBack.onSuccess(itemList);
+                    } else {
+                        Log.d(TAG, "Error getting documents: ", task.getException());
+                    }
+                }
+            });
+    }
 }
