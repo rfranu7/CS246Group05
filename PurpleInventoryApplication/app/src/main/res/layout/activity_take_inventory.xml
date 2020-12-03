@@ -17,49 +17,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/itemText"
-            android:layout_width="179dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="2dp"
-            android:layout_weight="1"
-            android:fontFamily="@font/open_sans" />
-
-        <EditText
-            android:id="@+id/editQuantity"
-            android:layout_width="75dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="2dp"
-            android:layout_weight="1"
-            android:background="@drawable/edit_text_border"
-            android:ems="10"
-            android:fontFamily="@font/open_sans"
-            android:inputType="textPersonName"
-            android:text="Name" />
-
-        <Button
-            android:id="@+id/addInventory"
-            android:layout_width="75dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="2dp"
-            android:layout_weight="1"
-            android:background="@drawable/rounded_button"
-            android:padding="4px"
-            android:text="@string/add_to_inventory_btn" />
-
-        <Button
-            android:id="@+id/subtractInventory"
-            android:layout_width="75dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="2dp"
-            android:layout_weight="1"
-            android:background="@drawable/rounded_button"
-            android:text="@string/subtract_from_inventory_btn" />
     </ListView>
 
     <Button

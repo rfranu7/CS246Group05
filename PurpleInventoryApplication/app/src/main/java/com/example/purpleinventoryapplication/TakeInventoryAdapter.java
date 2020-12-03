@@ -1,32 +1,48 @@
 package com.example.purpleinventoryapplication;
 
+import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class TakeInventoryAdapter extends BaseAdapter {
-    private final ArrayList mData;
+    private Context context;
+    private List<String> listTitle;
+    private HashMap<String, List<String>> listDetail;
 
-    public TakeInventoryAdapter(Map<String, List<String>> map) {
-        mData = new ArrayList();
-        mData.addAll(map.entrySet());
+    public TakeInventoryAdapter(Context context, List<String> listTitle, HashMap<String, List<String>> listDetail) {
+        this.context = context;
+        this.listTitle = listTitle;
+        this.listDetail = listDetail;
     }
+
 
     @Override
     public int getCount() {
-        return mData.size();
+        return listTitle.size();
     }
 
     @Override
-    public Map.Entry<String, List<String>> getItem(int position) {
-        return (Map.Entry) mData.get(position);
+    public Object getItem(int position) {
+        return listDetail.get(position);
+    }
+
+    public List<String> getDetails(String key) {
+        return listDetail.get(key);
+    }
+
+    public Object getGroup(int listPosition) {
+        return this.listTitle.get(listPosition);
     }
 
     @Override
@@ -38,24 +54,35 @@ public class TakeInventoryAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final View result;
+        String listTitle = (String) getGroup(position);
 
         if (convertView == null) {
-            result = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_take_inventory, parent, false);
-        } else {
-            result = convertView;
+            LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = layoutInflater.inflate(R.layout.list_take_inventory, null);
         }
 
-        Map.Entry<String, List<String>> item = getItem(position);
+        List<String> item = getDetails(listTitle);
+        String itemId = item.get(0);
+        String itemQty = item.get(1);
 
-        List<String> data = item.getValue();
+        TextView listTitleTextView = (TextView) convertView.findViewById(R.id.itemText);
+        listTitleTextView.setText(listTitle);
+
+        EditText editQty = (EditText) convertView.findViewById(R.id.editQuantity);
+        editQty.setText(itemQty);
+
+        Button addBtn = (Button) convertView.findViewById(R.id.addInventory);
+        addBtn.setTag(itemId);
+
+        Button subBtn = (Button) convertView.findViewById(R.id.subtractInventory);
+        subBtn.setTag(itemId);
 
 
         // TODO replace findViewById by ViewHolder
-        ((TextView) result.findViewById(R.id.itemText)).setText(item.getKey());
-        ((EditText) result.findViewById(R.id.editQuantity)).setText(data.get(1));
+//        ((TextView) convertView.findViewById(R.id.itemText)).setText(item.getKey());
+//        ((EditText) convertView.findViewById(R.id.editQuantity)).setText(data.get(1));
 
-        return result;
+        return convertView;
     }
 }
 //import android.content.Context;

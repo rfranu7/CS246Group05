@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
@@ -22,11 +23,12 @@ import java.util.Map;
  *
  */
 public class TakeInventory extends AppCompatActivity {
-
     private final String TAG = "TAKE INVENTORY ACTIVITY";
+
     ListView myListView;
     TakeInventoryAdapter takeInventoryAdapter;
     HashMap<String, List<String>> takeInventoryDetail;
+    List<String> takeInventoryTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +44,10 @@ public class TakeInventory extends AppCompatActivity {
 
                 List<Map<String, Object>> data = response;
 
-                Log.d(TAG, data.toString());
-
-                myListView = findViewById(R.id.myListView);
+                myListView = (ListView) findViewById(R.id.myListView);
                 takeInventoryDetail = TakeInventoryDataPump.getData(data);
-                takeInventoryAdapter = new TakeInventoryAdapter(takeInventoryDetail);
+                takeInventoryTitle = new ArrayList<String>(takeInventoryDetail.keySet());
+                takeInventoryAdapter = new TakeInventoryAdapter(TakeInventory.this, takeInventoryTitle, takeInventoryDetail);
                 myListView.setAdapter(takeInventoryAdapter);
 
             }

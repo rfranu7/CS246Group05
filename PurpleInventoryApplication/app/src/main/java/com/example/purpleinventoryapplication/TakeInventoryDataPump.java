@@ -36,7 +36,6 @@ public class TakeInventoryDataPump {
             List<String> item = new ArrayList<String>();
             item.add(ID);
             item.add(quantity);
-
             takeInventoryDetail.put(itemName+" "+unit, item);
         }
 

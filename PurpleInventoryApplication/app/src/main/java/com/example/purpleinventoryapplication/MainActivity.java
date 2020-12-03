@@ -30,38 +30,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mAuth = FirebaseAuth.getInstance();
-
-        // FirebaseApp.initializeApp(this);
-
-        // Company newCompany = new Company();
-        // newCompany.CompanyName("Purple Store");
-
-        /*
-            All Firestore connections are working
-            Uncomment the methods for testing.
-            Open firestore in Firebase console using the
-            Username and Password on slack :D
-        */
-
-        // Testing Write Data
-        //newCompany.writeData();
-
-        /*
-        // Testing Read Data
-        newCompany.getAllData();
-        newCompany.getDataById();
-        */
-
-        /*
-        // Testing Update Data
-        Map<String, Object> updates = new HashMap<>(); // Create object (dictionary) for updates list
-        updates.put("businessName", "Violet Store"); // Add the field to be updated
-        updates.put("businessOwner", "Baldwin Felipe"); // Adding new field sample
-        newCompany.updateDataById(updates);
-         */
-
-        // Testing Delete Data
-        //newCompany.deleteDataById();
     }
 
     public void onStart() {
@@ -135,14 +103,6 @@ public class MainActivity extends AppCompatActivity {
         sharedPreferences.edit().clear().apply();
 
         Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-    }
-    /**
-     * Creates editInventory intent.
-     * @param view
-     */
-    public void editInventory(View view) {
-        Intent intent = new Intent(this, EditInventory.class);
         startActivity(intent);
     }
 }
