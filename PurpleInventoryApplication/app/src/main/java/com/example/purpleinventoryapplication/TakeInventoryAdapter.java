@@ -1,5 +1,6 @@
 package com.example.purpleinventoryapplication;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,21 +64,51 @@ public class TakeInventoryAdapter extends BaseAdapter {
         }
 
         List<String> item = getDetails(listTitle);
-        String itemId = item.get(0);
-        String itemQty = item.get(1);
+        final String itemId = item.get(0);
+        final String itemQty = item.get(1);
 
         TextView listTitleTextView = (TextView) convertView.findViewById(R.id.itemText);
         listTitleTextView.setText(listTitle);
 
-        EditText editQty = (EditText) convertView.findViewById(R.id.editQuantity);
+        final EditText editQty = (EditText) convertView.findViewById(R.id.editQuantity);
         editQty.setTag(itemId);
         editQty.setText(itemQty);
+        editQty.setTag(position);
 
         Button addBtn = (Button) convertView.findViewById(R.id.addInventory);
-        addBtn.setTag(itemId);
+        addBtn.setTag(position);
 
         Button subBtn = (Button) convertView.findViewById(R.id.subtractInventory);
         subBtn.setTag(itemId);
+
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                int quantity = Integer.parseInt(itemQty);
+                quantity += 1;
+
+                Inventory inventory = new Inventory((Activity)TakeInventoryAdapter.this.context);
+                Map<String, Object> addQuantity = new HashMap<>();
+                addQuantity.put("itemQuantity", quantity);
+                addQuantity.put("dateUpdated", new Date().getTime());
+                inventory.updateDataById(itemId, addQuantity, "take");
+//                final Object tag = editQty.getTag();
+//                editQty.setText(quantity);
+            }
+        });
+        subBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                int quantity = Integer.parseInt(itemQty);
+                quantity -= 1;
+
+                Inventory inventory = new Inventory((Activity)TakeInventoryAdapter.this.context);
+                Map<String, Object> addQuantity = new HashMap<>();
+                addQuantity.put("itemQuantity", quantity);
+                addQuantity.put("dateUpdated", new Date().getTime());
+                inventory.updateDataById(itemId, addQuantity, "take");
+//                final Object tag = editQty.getTag();
+//                editQty.setText(quantity);
+            }
+        });
 
 
         // TODO replace findViewById by ViewHolder

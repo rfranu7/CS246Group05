@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -321,18 +322,8 @@ public class Inventory {
     /**
      * Updates Items collection in Firestore database based on ID
      */
-    public void updateDataById(String itemId) {
+    public void updateDataById(String itemId, Map<String, Object> item, final String source) {
         final String TAG = "Update Data"; // TAG USED FOR LOGGING
-
-        Map<String, Object> item = new HashMap<>();
-        item.put("ItemName", this.ItemName);
-        item.put("itemPrice", this.itemPrice);
-        item.put("itemCost", this.itemCost);
-        item.put("itemQuantity", this.itemQuantity);
-        item.put("itemUnit", this.itemUnit);
-        item.put("itemCategory", this.itemCategory);
-        //item.put("itemImage", this.itemImage);
-        item.put("dateUpdated", new Date().getTime());
 
         //pasted from firebase docs
         DocumentReference itemRef = db.collection("items").document(itemId);
@@ -344,9 +335,15 @@ public class Inventory {
                         Log.d(TAG, "DocumentSnapshot successfully updated!");
                         activity.runOnUiThread(new Runnable() {
                             public void run() {
-                                Toast.makeText(activity, "Item successfully updated.", Toast.LENGTH_LONG).show();
-                                Intent intent = new Intent(activity, ViewInventory.class);
-                                activity.startActivity(intent);
+                                if (source == "take") {
+                                    Toast.makeText(activity, "Item successfully updated.", Toast.LENGTH_LONG).show();
+                                    Intent intent = new Intent(activity, TakeInventory.class);
+                                    activity.startActivity(intent);
+                                } else {
+                                    Toast.makeText(activity, "Item successfully updated.", Toast.LENGTH_LONG).show();
+                                    Intent intent = new Intent(activity, ViewInventory.class);
+                                    activity.startActivity(intent);
+                                }
                             }
                         });
                     }

@@ -14,6 +14,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author Team-05
  *
@@ -87,7 +91,16 @@ public class EditInventory extends AppCompatActivity {
         String price = priceField.getText().toString();
         String cost = costField.getText().toString();
 
-        item.createItem(itemName, price, cost, quantity, unit, category);
-        item.updateDataById(itemId);
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("ItemName", itemName);
+        updates.put("itemPrice", price);
+        updates.put("itemCost", cost);
+        updates.put("itemQuantity", quantity);
+        updates.put("itemUnit", unit);
+        updates.put("itemCategory", category);
+        //updates.put("itemImage", this.itemImage);
+        updates.put("dateUpdated", new Date().getTime());
+
+        item.updateDataById(itemId, updates, "view");
     }
 }

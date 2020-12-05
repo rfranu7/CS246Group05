@@ -3,6 +3,7 @@ package com.example.purpleinventoryapplication;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +18,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,29 +47,32 @@ public class TakeInventory extends AppCompatActivity {
             public void onSuccess(List response) {
                 Log.d(TAG, "Getting data successful");
 
-                List<Map<String, Object>> data = response;
+                final List<Map<String, Object>> data = response;
 
                 myListView = (ListView) findViewById(R.id.myListView);
                 takeInventoryDetail = TakeInventoryDataPump.getData(data);
                 takeInventoryTitle = new ArrayList<String>(takeInventoryDetail.keySet());
                 takeInventoryAdapter = new TakeInventoryAdapter(TakeInventory.this, takeInventoryTitle, takeInventoryDetail);
                 myListView.setAdapter(takeInventoryAdapter);
+
+                //final Button addButton = (Button) findViewById(R.id.addInventory);
+
+                //final Object tag = addButton.getTag();
+
+//                addButton.setOnClickListener(new View.OnClickListener() {
+//                    public void onClick(View v) {
+//                        int quantity = (int) data.get((Integer) tag).get("itemQuantity");
+//                        quantity += 1;
+//
+//                        String ID = (String) data.get((Integer) tag).get("ID");
+//                        Inventory inventory = new Inventory(TakeInventory.this);
+//                        Map<String, Object> addQuantity = new HashMap<>();
+//                        addQuantity.put("itemQuantity", quantity);
+//                        addQuantity.put("dateUpdated", new Date().getTime());
+//                        inventory.updateDataById(ID, addQuantity);
+//                    }
+//                });
             }
         });
-    }
-    
-    public void addQuantity (View view) {
-        Button addBtn = (Button) view.findViewById(R.id.addInventory);
-        Object tag = addBtn.getTag();
-        Log.d(TAG, tag.toString());
-
-        EditText itemQty = (EditText) view.findViewById(R.id.editQuantity);
-//        Log.d(TAG, itemQty.toString());
-//        int currQty = Integer.parseInt(itemQty.getText().toString());
-//        int addQty = currQty+1;
-//        Log.d(TAG, String.valueOf(addQty));
-
-//        itemQty.setText(addQty);
-
     }
 }
