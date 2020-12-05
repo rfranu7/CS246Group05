@@ -3,6 +3,7 @@ package com.example.purpleinventoryapplication;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,11 +49,7 @@ public class TakeInventoryAdapter extends BaseAdapter {
     }
 
     @Override
-    public long getItemId(int position) {
-        // TODO implement you own logic with ID
-
-        return 0;
-    }
+    public long getItemId(int position) { return 0; }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -63,6 +60,8 @@ public class TakeInventoryAdapter extends BaseAdapter {
             convertView = layoutInflater.inflate(R.layout.list_take_inventory, null);
         }
 
+        final View theView = convertView;
+
         List<String> item = getDetails(listTitle);
         final String itemId = item.get(0);
         final String itemQty = item.get(1);
@@ -70,20 +69,37 @@ public class TakeInventoryAdapter extends BaseAdapter {
         TextView listTitleTextView = (TextView) convertView.findViewById(R.id.itemText);
         listTitleTextView.setText(listTitle);
 
-        final EditText editQty = (EditText) convertView.findViewById(R.id.editQuantity);
+        int editTextId = context.getResources().getIdentifier(String.valueOf(position), "id", context.getPackageName());
+        EditText editQty = (EditText) convertView.findViewById(R.id.editQuantity);
+
+        if (editQty == null) {
+            editQty = (EditText) convertView.findViewById(editTextId);
+        } else {
+            editQty.setId(position);
+            editQty.setText(itemQty);
+        }
+
         editQty.setTag(itemId);
-        editQty.setText(itemQty);
-        editQty.setTag(position);
+        Log.d("EDIT TEXT ID", "GETTING ID");
+        Log.d("EDIT TEXT ID", String.valueOf(editQty.getId()));
 
         Button addBtn = (Button) convertView.findViewById(R.id.addInventory);
         addBtn.setTag(position);
 
         Button subBtn = (Button) convertView.findViewById(R.id.subtractInventory);
-        subBtn.setTag(itemId);
+        subBtn.setTag(position);
 
         addBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                int quantity = Integer.parseInt(itemQty);
+
+                // GET THE EDIT TEXT TO UPDATED VALUE
+                Object tag = v.getTag();
+                Log.d("METHOD CLICK", tag.toString());
+                int editId = context.getResources().getIdentifier(tag.toString(), "id", context.getPackageName());
+                EditText editQty = (EditText) theView.findViewById(editId);
+                EditText editQty1 = (EditText) theView.findViewById(R.id.editQuantity);
+
+                int quantity = Integer.parseInt(editQty.getText().toString());
                 quantity += 1;
 
                 Inventory inventory = new Inventory((Activity)TakeInventoryAdapter.this.context);
@@ -91,13 +107,23 @@ public class TakeInventoryAdapter extends BaseAdapter {
                 addQuantity.put("itemQuantity", quantity);
                 addQuantity.put("dateUpdated", new Date().getTime());
                 inventory.updateDataById(itemId, addQuantity, "take");
-//                final Object tag = editQty.getTag();
-//                editQty.setText(quantity);
+
+                // SET UPDATED VALUE
+                Log.d("METHOD CLICK", String.valueOf(editId));
+                editQty.setText(String.valueOf(quantity));
             }
         });
         subBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                int quantity = Integer.parseInt(itemQty);
+
+                // GET THE EDIT TEXT TO UPDATED VALUE
+                Object tag = v.getTag();
+                Log.d("METHOD CLICK", tag.toString());
+                int editId = context.getResources().getIdentifier(tag.toString(), "id", context.getPackageName());
+                EditText editQty = (EditText) theView.findViewById(editId);
+                EditText editQty1 = (EditText) theView.findViewById(R.id.editQuantity);
+
+                int quantity = Integer.parseInt(editQty.getText().toString());
                 quantity -= 1;
 
                 Inventory inventory = new Inventory((Activity)TakeInventoryAdapter.this.context);
@@ -105,68 +131,13 @@ public class TakeInventoryAdapter extends BaseAdapter {
                 addQuantity.put("itemQuantity", quantity);
                 addQuantity.put("dateUpdated", new Date().getTime());
                 inventory.updateDataById(itemId, addQuantity, "take");
-//                final Object tag = editQty.getTag();
-//                editQty.setText(quantity);
+
+                // SET THE TEXT TO UPDATED VALUE
+                Log.d("METHOD CLICK", String.valueOf(editId));
+                editQty.setText(String.valueOf(quantity));
             }
         });
-
-
-        // TODO replace findViewById by ViewHolder
-//        ((TextView) convertView.findViewById(R.id.itemText)).setText(item.getKey());
-//        ((EditText) convertView.findViewById(R.id.editQuantity)).setText(data.get(1));
 
         return convertView;
     }
 }
-//import android.content.Context;
-//import android.util.Log;
-//import android.view.LayoutInflater;
-//import android.view.View;
-//import android.view.ViewGroup;
-//import android.widget.ArrayAdapter;
-//import android.widget.EditText;
-//import android.widget.ListAdapter;
-//import android.widget.TextView;
-//
-//import androidx.annotation.NonNull;
-//
-//import java.util.HashMap;
-//import java.util.List;
-//import java.util.Map;
-//import java.util.Set;
-//
-//public class TakeInventoryAdapter extends ArrayAdapter<Map<String, List<String>>> {
-//    private final String TAG = "TAKE INVENTORY ADAPTER";
-//    public String name;
-//    public String [] itemData;
-//    public String ID;
-//    public String quantity;
-//
-//
-//    public TakeInventoryAdapter(@NonNull VolleyOnEventListener context, Map<String, List<String>> Items) {
-//        super((Context) context, R.layout.activity_take_inventory, (List<Map<String, List<String>>>) Items);
-//    }
-//
-//    @Override
-//    public View getView(int position, View convertView, ViewGroup parent) {
-//
-//        LayoutInflater myInflater = LayoutInflater.from(getContext());
-//        View CustomView = myInflater.inflate(R.layout.activity_take_inventory, parent, false);
-//
-//        Map<String, List<String>> singleItem = getItem(position);
-//
-//        for (String key : singleItem.keySet()) {
-//            name = key;
-//            List data = singleItem.get(key);
-//            ID = (String) data.get(0);
-//            quantity = (String) data.get(1);
-//        }
-//
-//        TextView itemText = (TextView) CustomView.findViewById(R.id.itemText);
-//        EditText editQuantity = (EditText) CustomView.findViewById(R.id.editQuantity);
-//
-//        itemText.setText(name);
-//        editQuantity.setText(quantity);
-//        return CustomView;
-//    };
-//};

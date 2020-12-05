@@ -50,6 +50,7 @@ public class TakeInventory extends AppCompatActivity {
                 final List<Map<String, Object>> data = response;
 
                 myListView = (ListView) findViewById(R.id.myListView);
+                myListView.setItemsCanFocus(true);
                 takeInventoryDetail = TakeInventoryDataPump.getData(data);
                 takeInventoryTitle = new ArrayList<String>(takeInventoryDetail.keySet());
                 takeInventoryAdapter = new TakeInventoryAdapter(TakeInventory.this, takeInventoryTitle, takeInventoryDetail);

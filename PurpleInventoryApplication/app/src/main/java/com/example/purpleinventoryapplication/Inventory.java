@@ -337,8 +337,8 @@ public class Inventory {
                             public void run() {
                                 if (source == "take") {
                                     Toast.makeText(activity, "Item successfully updated.", Toast.LENGTH_LONG).show();
-                                    Intent intent = new Intent(activity, TakeInventory.class);
-                                    activity.startActivity(intent);
+                                    // Intent intent = new Intent(activity, TakeInventory.class);
+                                    // activity.startActivity(intent);
                                 } else {
                                     Toast.makeText(activity, "Item successfully updated.", Toast.LENGTH_LONG).show();
                                     Intent intent = new Intent(activity, ViewInventory.class);
