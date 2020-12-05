@@ -20,7 +20,8 @@ import java.util.Map;
 
 /**
  * @author Team-05
- *
+ * edits inventory document.
+ *Creates a transaction to record changes
  */
 public class EditInventory extends AppCompatActivity {
     private final String TAG = "EDIT INVENTORY ACTIVITY";
@@ -103,4 +104,5 @@ public class EditInventory extends AppCompatActivity {
 
         item.updateDataById(itemId, updates, "view");
     }
+
 }
