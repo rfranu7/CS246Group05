@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +16,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.common.primitives.Ints;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -49,6 +51,9 @@ public class Inventory {
     String itemUnit;
     String itemCategory;
     String itemImage;
+    HashMap<String, List<String>> categoryInfo;
+    List<String> categoryName;
+    int selection;
     /**
      * saves response from database
      */
@@ -115,14 +120,14 @@ public class Inventory {
                                 EditText nameField = (EditText) Inventory.this.activity.findViewById(R.id.itemName);
                                 EditText quantityField = (EditText) Inventory.this.activity.findViewById(R.id.quantity);
                                 EditText unitField = (EditText) Inventory.this.activity.findViewById(R.id.unit);
-                                EditText categoryField = (EditText) Inventory.this.activity.findViewById(R.id.category);
+                                Spinner categoryField = Inventory.this.activity.findViewById(R.id.category);
                                 EditText priceField = (EditText) Inventory.this.activity.findViewById(R.id.price);
                                 EditText costField = (EditText) Inventory.this.activity.findViewById(R.id.cost);
 
                                 nameField.getText().clear();
                                 quantityField.getText().clear();
                                 unitField.getText().clear();
-                                categoryField.getText().clear();
+                                categoryField.setSelection(0);
                                 priceField.getText().clear();
                                 costField.getText().clear();
 
@@ -202,14 +207,43 @@ public class Inventory {
                                     EditText nameField = (EditText) Inventory.this.activity.findViewById(R.id.itemName);
                                     EditText quantityField = (EditText) Inventory.this.activity.findViewById(R.id.quantity);
                                     EditText unitField = (EditText) Inventory.this.activity.findViewById(R.id.unit);
-                                    EditText categoryField = (EditText) Inventory.this.activity.findViewById(R.id.category);
+                                    final Spinner categoryField = Inventory.this.activity.findViewById(R.id.category);
                                     EditText priceField = (EditText) Inventory.this.activity.findViewById(R.id.price);
                                     EditText costField = (EditText) Inventory.this.activity.findViewById(R.id.cost);
 
                                     nameField.setText(Inventory.this.ItemName);
                                     quantityField.setText(Inventory.this.itemQuantity);
                                     unitField.setText(Inventory.this.itemUnit);
-                                    categoryField.setText(Inventory.this.itemCategory);
+
+                                    Category categories = new Category(activity);
+                                    categories.getAllData(new VolleyOnEventListener() {
+                                        @Override
+                                        public void onSuccess(List response) {
+                                            Log.d(TAG, response.toString());
+                                            Log.d(TAG, "Getting data successful");
+
+                                            List<Map<String, Object>> data = response;
+                                            categoryInfo = new HashMap<String, List<String>>();
+
+                                            for(int i=0; i < data.size(); i++) {
+                                                String name = data.get(i).get("categoryName").toString();
+                                                String created = data.get(i).get("created").toString();
+
+                                                List<String> detail = new ArrayList<String>();
+                                                detail.add(name);
+                                                detail.add(created);
+                                                categoryInfo.put(name, detail);
+                                            }
+
+                                            categoryName = new ArrayList<>(categoryInfo.keySet());
+                                            selection = categoryName.indexOf(Inventory.this.itemCategory);
+                                            Log.d(TAG, "selection is " + selection );
+                                            categoryField.setSelection(selection);
+                                        }
+
+                                    });
+
+
                                     priceField.setText(Inventory.this.itemPrice);
                                     costField.setText(Inventory.this.itemCost);
 
@@ -227,6 +261,7 @@ public class Inventory {
             }
         });
     }
+
 
     /**
      * gets Item from Items collection by Id.

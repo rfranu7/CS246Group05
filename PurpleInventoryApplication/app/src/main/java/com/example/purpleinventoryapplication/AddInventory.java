@@ -11,8 +11,16 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.Spinner;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**Adds inventory item to Firestore collection.
  * @author Team-5
@@ -25,6 +33,8 @@ public class AddInventory extends AppCompatActivity implements LifecycleObserver
     private ImageView imageView;
     private ImageView addPhotoButton;
     private Uri imageUri;
+    HashMap<String, List<String>> categoryInfo;
+    List<String> categoryName;
 
 
     @Override
@@ -32,11 +42,44 @@ public class AddInventory extends AppCompatActivity implements LifecycleObserver
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_inventory);
 
-       imageView = findViewById(R.id.imageView5);
-       addPhotoButton = findViewById(R.id.imageButton5);
-       addPhotoButton.setOnClickListener(this);
+        imageView = findViewById(R.id.imageView5);
+        addPhotoButton = findViewById(R.id.imageButton5);
+        addPhotoButton.setOnClickListener(this);
 
-       addPhotoButton.setVisibility(View.VISIBLE);
+        addPhotoButton.setVisibility(View.VISIBLE);
+
+        final Spinner dropdown = findViewById(R.id.category);
+
+        Category categories = new Category(this);
+
+        categories.getAllData(new VolleyOnEventListener() {
+            @Override
+            public void onSuccess(List response) {
+                Log.d(TAG, response.toString());
+                Log.d(TAG, "Getting data successful");
+
+                List<Map<String, Object>> data = response;
+                categoryInfo = new HashMap<String, List<String>>();
+
+                for(int i=0; i < data.size(); i++) {
+                    String name = data.get(i).get("categoryName").toString();
+                    String created = data.get(i).get("created").toString();
+
+                    List<String> detail = new ArrayList<String>();
+                    detail.add(name);
+                    detail.add(created);
+                    categoryInfo.put(name, detail);
+                }
+
+                categoryName = new ArrayList<>(categoryInfo.keySet());
+                Log.d(TAG, categoryName.toString());
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(AddInventory.this, android.R.layout.simple_spinner_dropdown_item, categoryName);
+
+                dropdown.setAdapter(adapter);
+            }
+
+        });
 
     }
 
@@ -68,14 +111,14 @@ public class AddInventory extends AppCompatActivity implements LifecycleObserver
         EditText nameField = (EditText) findViewById(R.id.itemName);
         EditText quantityField = (EditText) findViewById(R.id.quantity);
         EditText unitField = (EditText) findViewById(R.id.unit);
-        EditText categoryField = (EditText) findViewById(R.id.category);
+        Spinner categoryField = findViewById(R.id.category);
         EditText priceField = (EditText) findViewById(R.id.price);
         EditText costField = (EditText) findViewById(R.id.cost);
 
         String itemName = nameField.getText().toString();
         String quantity = quantityField.getText().toString();
         String unit = unitField.getText().toString();
-        String category = categoryField.getText().toString();
+        String category = categoryField.getSelectedItem().toString();
         String price = priceField.getText().toString();
         String cost = costField.getText().toString();
 
@@ -112,14 +155,13 @@ public class AddInventory extends AppCompatActivity implements LifecycleObserver
         EditText nameField = (EditText) findViewById(R.id.itemName);
         EditText quantityField = (EditText) findViewById(R.id.quantity);
         EditText unitField = (EditText) findViewById(R.id.unit);
-        EditText categoryField = (EditText) findViewById(R.id.category);
+        Spinner categoryField = findViewById(R.id.category);
         EditText priceField = (EditText) findViewById(R.id.price);
         EditText costField = (EditText) findViewById(R.id.cost);
 
         nameField.setText(itemName);
         quantityField.setText(quantity);
         unitField.setText(unit);
-        categoryField.setText(category);
         priceField.setText(price);
         costField.setText(cost);
     }
@@ -142,14 +184,14 @@ public class AddInventory extends AppCompatActivity implements LifecycleObserver
         EditText nameField = (EditText) findViewById(R.id.itemName);
         EditText quantityField = (EditText) findViewById(R.id.quantity);
         EditText unitField = (EditText) findViewById(R.id.unit);
-        EditText categoryField = (EditText) findViewById(R.id.category);
+        Spinner categoryField = findViewById(R.id.category);
         EditText priceField = (EditText) findViewById(R.id.price);
         EditText costField = (EditText) findViewById(R.id.cost);
 
         String itemName = nameField.getText().toString();
         String quantity = quantityField.getText().toString();
         String unit = unitField.getText().toString();
-        String category = categoryField.getText().toString();
+        String category = categoryField.getSelectedItem().toString();
         String price = priceField.getText().toString();
         String cost = costField.getText().toString();
 

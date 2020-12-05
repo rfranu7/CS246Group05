@@ -33,6 +33,7 @@ public class CategoryList extends AppCompatActivity {
         categories.getAllData(new VolleyOnEventListener() {
             @Override
             public void onSuccess(List response) {
+                Log.d(TAG, response.toString());
                 Log.d(TAG, "Getting data successful");
 
                 List<Map<String, Object>> data = response;
