@@ -78,6 +78,22 @@ public class EditInventory extends AppCompatActivity {
     public void applyChanges(View view) {
         Log.d(TAG, "APPLY CHANGES");
 
+        //creates new transaction to record changes.
+        Transaction transaction = new Transaction();
+        // I just did placeholder numbers to test,
+        transaction.createTransaction("null",5,7);
+
+//        item.getAllData(new VolleyOnEventListener() {
+//            @Override
+//            public void onSuccess(List response) {
+//                Log.d(TAG, "Getting data successful");
+//
+//                List<Map<String, Object>> data = response;
+//
+//                Log.d(TAG, data.toString());
+//            }
+//        });
+
         EditText nameField = (EditText) findViewById(R.id.itemName);
         EditText quantityField = (EditText) findViewById(R.id.quantity);
         EditText unitField = (EditText) findViewById(R.id.unit);

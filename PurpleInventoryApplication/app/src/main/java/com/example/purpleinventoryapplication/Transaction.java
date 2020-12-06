@@ -54,6 +54,10 @@ public class Transaction {
 
     }
 
+    public Transaction() {
+
+    }
+
     /**
      *
      * @param itemName
@@ -114,38 +118,25 @@ public class Transaction {
         });
     }
 
-//    public void checkTransactionId(String transactionId) {
-//        final String TAG = "Display Inventory"; // TAG USED FOR LOGGING
-//        DocumentReference docId = db.collection("items").document(transactionId);
-//        docId.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    final DocumentSnapshot document = task.getResult();
-//                    if (document.exists()) {
-//                        Log.i(TAG, "DocumentSnapshot data: " + document.getData());
-//                        Transaction.this.success = true;
-//                    } else {
-//                        Log.i(TAG, "DocumentSnapshot data: " + document.getData());
-//                    }
-//                        Transaction.this.success = false;
-//
-//                }else {
-//                    Log.d(TAG, "No such document");
-//            }
-//
-//    });
-//    }
-//
 
-
-    public void createTransaction(String transactionId, String itemName, int originalQuantity, int finalQuantity) {
+    public void createTransaction(String itemName, int originalQuantity, int finalQuantity) {
 //       String transID = getDataById(transactionId);
+        final String TAG = "Create Transaction"; // TAG USED FOR LOGGING
 //    todo create transaction-> if success = true {update data by id} else write data.
 
         this.itemName = itemName;
         this.originalQuantity = originalQuantity;
         this.finalQuantity = finalQuantity;
+        //create transaction ID from item name and current date.
+        this.transactionId = setTransactionId(itemName);
+        getDataById(this.transactionId);
+        if (this.success == true) {
+            Log.d(TAG, "Transaction ID is valid");
+        } else {
+            Log.d(TAG, "Transaction ID is invalid");
+            writeData();
+        }
+
 
     }
     //todo get original quantity and final quantity from take inventory or edit inventory.
@@ -171,7 +162,7 @@ public class Transaction {
         transaction.put("finalQuantity", this.finalQuantity);
 
 
-        db.collection("categories")
+        db.collection("transactions")
                 .document(this.transactionId)
                 .set(transaction)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
