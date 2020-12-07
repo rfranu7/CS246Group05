@@ -1,11 +1,7 @@
 package com.example.purpleinventoryapplication;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.util.Log;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -23,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Transaction {
@@ -54,29 +49,34 @@ public class Transaction {
 
     }
 
-    public Transaction() {
-
-    }
-
     /**
-     *
-     * @param itemName
-     * @return transactionId
-     *
      * creates a unique string with item name and date .
      * will be used to check to see if there is already a document for that day.
      * will be the transaction ID in the firestore transaction document
+     * @param itemName
+     * @return transactionId
      */
     public String setTransactionId(String itemName) {
         Date date = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
 
-        String transactionId = itemName + calendar.get(Calendar.MONTH)
-                + calendar.get(Calendar.DAY_OF_MONTH)
-                + calendar.get(Calendar.YEAR);
+        String transactionId = itemName +"-"+ calendar.get(Calendar.MONTH)
+                +"-"+ calendar.get(Calendar.DAY_OF_MONTH)
+                +"-"+ calendar.get(Calendar.YEAR);
         return transactionId;
+    }
 
+    /**
+     * Public setter for Transaction Class
+     * @param itemName
+     * @param originalQuantity
+     * @param finalQuantity
+     */
+    public void setProperties(String itemName, int originalQuantity, int finalQuantity){
+        this.itemName = itemName;
+        this.originalQuantity = originalQuantity;
+        this.finalQuantity = finalQuantity;
     }
 
     //todo
@@ -96,13 +96,11 @@ public class Transaction {
                                 Transaction.this.success = true;
                                 if(Transaction.this.success) {
 
-
                                     Transaction.this.transactionId = document.get("TransactionID").toString();
                                     Transaction.this.transactionName = document.get("transactionName").toString();
                                     Transaction.this.itemName = document.get("itemCost").toString();
                                     Transaction.this.originalQuantity = (int) document.get("originalQuantity");
                                     Transaction.this.finalQuantity = (int) document.get("itemUnit");
-
 
                                 }
                                 Transaction.this.success = false;
@@ -118,65 +116,73 @@ public class Transaction {
         });
     }
 
-
-    public void createTransaction(String itemName, int originalQuantity, int finalQuantity) {
-//       String transID = getDataById(transactionId);
+    /**
+     * Creates or updates transaction
+     * @param itemName
+     * @param originalQuantity
+     * @param finalQuantity
+     */
+    public void createTransaction(final String itemName, int originalQuantity, int finalQuantity) {
         final String TAG = "Create Transaction"; // TAG USED FOR LOGGING
-//    todo create transaction-> if success = true {update data by id} else write data.
+        final String transID = setTransactionId(itemName);
+        setProperties(itemName, originalQuantity, finalQuantity);
 
-        this.itemName = itemName;
-        this.originalQuantity = originalQuantity;
-        this.finalQuantity = finalQuantity;
-        //create transaction ID from item name and current date.
-        this.transactionId = setTransactionId(itemName);
-        getDataById(this.transactionId);
-        if (this.success == true) {
-            Log.d(TAG, "Transaction ID is valid");
-        } else {
-            Log.d(TAG, "Transaction ID is invalid");
-            writeData();
-        }
+        final DocumentReference docId = db.collection("transactions").document(transID);
+        docId.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    final DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.i(TAG, "DocumentSnapshot data: " + document.getData());
+                        ArrayList<Date> transactionRecords = new ArrayList<>();
 
+                        ArrayList<Date> dates = (ArrayList<Date>) document.get("updated");
+                        for(int i=0; i < dates.size(); i++){
+                            transactionRecords.add(dates.get(i));
+                        }
+                        transactionRecords.add(new Date());
 
+                        Map<String, Object> transaction = new HashMap<>();
+                        transaction.put("finalQuantity", Transaction.this.finalQuantity);
+                        transaction.put("updated", transactionRecords);
+
+                        updateDataById(transID, transaction);
+                    } else {
+                        Log.d(TAG, "No such document");
+                        ArrayList<Date> transactionRecords = new ArrayList<>();
+                        transactionRecords.add(new Date());
+
+                        Map<String, Object> transaction = new HashMap<>();
+                        transaction.put("itemName", Transaction.this.itemName);
+                        transaction.put("originalQuantity", Transaction.this.originalQuantity);
+                        transaction.put("finalQuantity", Transaction.this.finalQuantity);
+                        transaction.put("created",new Date());
+                        transaction.put("updated", transactionRecords);
+
+                        writeData(transID, transaction);
+                    }
+                } else {
+                    Log.w(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
     }
-    //todo get original quantity and final quantity from take inventory or edit inventory.
 
-//    public void createOrUpdateTransaction(String transactionId) {
-//        getDataById(transactionId);
-//    }
-
-
-
-
-
-
-
-    public void writeData() {
+    /**
+     * Writes/Creates the transaction to Fire Store
+     * @param transactionId
+     */
+    public void writeData(String transactionId, Map<String, Object> transaction) {
         final String TAG = "Create Transaction"; // TAG USED FOR LOGGING
-
-        Map<String, Object> transaction = new HashMap<>();
-        transaction.put("transactionName", this.transactionName);
-        transaction.put("created",new Date().getTime());
-        transaction.put("itemName", this.itemName);
-        transaction.put("originalQuantity", this.originalQuantity);
-        transaction.put("finalQuantity", this.finalQuantity);
-
 
         db.collection("transactions")
-                .document(this.transactionId)
+                .document(transactionId)
                 .set(transaction)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "DocumentSnapshot successfully written!");
-//                        Toast.makeText(Transaction.this.activity,"Transaction history updated")
-//                        activity.runOnUiThread(new Runnable() {
-//                            public void run() {
-//                                Toast.makeText(Category.this.activity,"Item successfully added." ,Toast.LENGTH_SHORT).show();
-//                                Intent intent = new Intent(activity, CategoryList.class);
-//                                activity.startActivity(intent);
-//                            }
-//                        })
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -185,6 +191,32 @@ public class Transaction {
                         Log.w(TAG, "Error adding document", e);
                     }
                 });
+    }
+
+    /**
+     * Updates the transaction collection in Fire Store database based on ID
+     * @param transactionId
+     * @param transaction
+     */
+    public void updateDataById(String transactionId, Map<String, Object> transaction) {
+        final String TAG = "Update Data"; // TAG USED FOR LOGGING
+
+        //pasted from firebase docs
+        DocumentReference TransactionRef = db.collection("transactions").document(transactionId);
+
+        TransactionRef.update(transaction)
+            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Log.d(TAG, "DocumentSnapshot successfully updated!");
+                }
+            })
+            .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.w(TAG, "Error updating document", e);
+                }
+            });
     }
 
 }

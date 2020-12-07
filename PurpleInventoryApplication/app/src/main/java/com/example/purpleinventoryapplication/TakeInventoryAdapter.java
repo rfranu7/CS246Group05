@@ -99,18 +99,24 @@ public class TakeInventoryAdapter extends BaseAdapter {
                 EditText editQty = (EditText) theView.findViewById(editId);
                 EditText editQty1 = (EditText) theView.findViewById(R.id.editQuantity);
 
-                int quantity = Integer.parseInt(editQty.getText().toString());
-                quantity += 1;
+                int OGQuantity = Integer.parseInt(editQty.getText().toString());
+                int newQuantity = OGQuantity + 1;
 
                 Inventory inventory = new Inventory((Activity)TakeInventoryAdapter.this.context);
                 Map<String, Object> addQuantity = new HashMap<>();
-                addQuantity.put("itemQuantity", quantity);
+                addQuantity.put("itemQuantity", newQuantity);
                 addQuantity.put("dateUpdated", new Date().getTime());
                 inventory.updateDataById(itemId, addQuantity, "take");
 
+
+                //creates new transaction to record changes if quantity changes.
+//                Log.d("METHOD CLICK","Creating a transaction");
+//                Transaction transaction = new Transaction((Activity)TakeInventoryAdapter.this.context);
+//                transaction.createTransaction(itemName, OGQuantity, newQuantity);
+
                 // SET UPDATED VALUE
                 Log.d("METHOD CLICK", String.valueOf(editId));
-                editQty.setText(String.valueOf(quantity));
+                editQty.setText(String.valueOf(newQuantity));
             }
         });
         subBtn.setOnClickListener(new View.OnClickListener() {

@@ -182,8 +182,9 @@ public class Inventory {
      * gets Item from Items collection by Id.
      * @param itemId
      */
-    public void getDataById(String itemId) {
+    public void getDataById(String itemId, final VolleyEventById mCallback) {
         final String TAG = "Display Inventory"; // TAG USED FOR LOGGING
+        final Map<String, String> itemMap = new HashMap<>();
 
         DocumentReference docId = db.collection("items").document(itemId);
         docId.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -193,66 +194,15 @@ public class Inventory {
                     final DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         Log.i(TAG, "DocumentSnapshot data: " + document.getData());
-                        activity.runOnUiThread(new Runnable() {
-                            public void run() {
-                                Inventory.this.success = true;
-                                if(Inventory.this.success) {
 
-                                    Inventory.this.ItemName = document.get("ItemName").toString();
-                                    Inventory.this.itemPrice = document.get("itemPrice").toString();
-                                    Inventory.this.itemCost = document.get("itemCost").toString();
-                                    Inventory.this.itemQuantity = document.get("itemQuantity").toString();
-                                    Inventory.this.itemUnit = document.get("itemUnit").toString();
-                                    Inventory.this.itemCategory = document.get("itemCategory").toString();
+                        itemMap.put("itemName", document.get("ItemName").toString());
+                        itemMap.put("itemPrice", document.get("itemPrice").toString());
+                        itemMap.put("itemCost", document.get("itemCost").toString());
+                        itemMap.put("itemQuantity", document.get("itemQuantity").toString());
+                        itemMap.put("itemUnit", document.get("itemUnit").toString());
+                        itemMap.put("itemCategory", document.get("itemCategory").toString());
 
-                                    EditText nameField = (EditText) Inventory.this.activity.findViewById(R.id.itemName);
-                                    EditText quantityField = (EditText) Inventory.this.activity.findViewById(R.id.quantity);
-                                    EditText unitField = (EditText) Inventory.this.activity.findViewById(R.id.unit);
-                                    final Spinner categoryField = Inventory.this.activity.findViewById(R.id.category);
-                                    EditText priceField = (EditText) Inventory.this.activity.findViewById(R.id.price);
-                                    EditText costField = (EditText) Inventory.this.activity.findViewById(R.id.cost);
-
-                                    nameField.setText(Inventory.this.ItemName);
-                                    quantityField.setText(Inventory.this.itemQuantity);
-                                    unitField.setText(Inventory.this.itemUnit);
-
-                                    Category categories = new Category(activity);
-                                    categories.getAllData(new VolleyOnEventListener() {
-                                        @Override
-                                        public void onSuccess(List response) {
-                                            Log.d(TAG, response.toString());
-                                            Log.d(TAG, "Getting data successful");
-
-                                            List<Map<String, Object>> data = response;
-                                            categoryInfo = new HashMap<String, List<String>>();
-
-                                            for(int i=0; i < data.size(); i++) {
-                                                String name = data.get(i).get("categoryName").toString();
-                                                String created = data.get(i).get("created").toString();
-
-                                                List<String> detail = new ArrayList<String>();
-                                                detail.add(name);
-                                                detail.add(created);
-                                                categoryInfo.put(name, detail);
-                                            }
-
-                                            categoryName = new ArrayList<>(categoryInfo.keySet());
-                                            selection = categoryName.indexOf(Inventory.this.itemCategory);
-                                            Log.d(TAG, "selection is " + selection );
-                                            categoryField.setSelection(selection);
-                                        }
-
-                                    });
-
-
-                                    priceField.setText(Inventory.this.itemPrice);
-                                    costField.setText(Inventory.this.itemCost);
-
-                                    Log.i(TAG, "fields have been updated.");
-                                }
-                                Inventory.this.success = false;
-                            }
-                        });
+                        mCallback.onGetDataByIdSuccess(itemMap);
                     } else {
                         Log.d(TAG, "No such document");
                     }

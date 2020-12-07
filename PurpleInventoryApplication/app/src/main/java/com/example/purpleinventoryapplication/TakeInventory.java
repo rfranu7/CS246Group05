@@ -55,24 +55,6 @@ public class TakeInventory extends AppCompatActivity {
                 takeInventoryTitle = new ArrayList<String>(takeInventoryDetail.keySet());
                 takeInventoryAdapter = new TakeInventoryAdapter(TakeInventory.this, takeInventoryTitle, takeInventoryDetail);
                 myListView.setAdapter(takeInventoryAdapter);
-
-                //final Button addButton = (Button) findViewById(R.id.addInventory);
-
-                //final Object tag = addButton.getTag();
-
-//                addButton.setOnClickListener(new View.OnClickListener() {
-//                    public void onClick(View v) {
-//                        int quantity = (int) data.get((Integer) tag).get("itemQuantity");
-//                        quantity += 1;
-//
-//                        String ID = (String) data.get((Integer) tag).get("ID");
-//                        Inventory inventory = new Inventory(TakeInventory.this);
-//                        Map<String, Object> addQuantity = new HashMap<>();
-//                        addQuantity.put("itemQuantity", quantity);
-//                        addQuantity.put("dateUpdated", new Date().getTime());
-//                        inventory.updateDataById(ID, addQuantity);
-//                    }
-//                });
             }
         });
     }
