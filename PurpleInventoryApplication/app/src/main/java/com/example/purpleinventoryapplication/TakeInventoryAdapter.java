@@ -2,7 +2,6 @@ package com.example.purpleinventoryapplication;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Typeface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +11,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -70,7 +68,7 @@ public class TakeInventoryAdapter extends BaseAdapter {
         listTitleTextView.setText(listTitle);
 
         int editTextId = context.getResources().getIdentifier(String.valueOf(position), "id", context.getPackageName());
-        EditText editQty = (EditText) convertView.findViewById(R.id.editQuantity);
+        EditText editQty = (EditText) convertView.findViewById(R.id.editIncrement);
 
         if (editQty == null) {
             editQty = (EditText) convertView.findViewById(editTextId);
@@ -103,7 +101,7 @@ public class TakeInventoryAdapter extends BaseAdapter {
 
                 int editId = context.getResources().getIdentifier(tag.toString(), "id", context.getPackageName());
                 EditText editQty = (EditText) theView.findViewById(editId);
-                EditText editQty1 = (EditText) theView.findViewById(R.id.editQuantity);
+                EditText editQty1 = (EditText) theView.findViewById(R.id.editIncrement);
 
                 int OGQuantity = Integer.parseInt(editQty.getText().toString());
                 int newQuantity = OGQuantity + 1;
@@ -138,7 +136,7 @@ public class TakeInventoryAdapter extends BaseAdapter {
 
                 int editId = context.getResources().getIdentifier(tag.toString(), "id", context.getPackageName());
                 EditText editQty = (EditText) theView.findViewById(editId);
-                EditText editQty1 = (EditText) theView.findViewById(R.id.editQuantity);
+                EditText editQty1 = (EditText) theView.findViewById(R.id.editIncrement);
 
                 int OGQuantity = Integer.parseInt(editQty.getText().toString());
                 int newQuantity = OGQuantity - 1;

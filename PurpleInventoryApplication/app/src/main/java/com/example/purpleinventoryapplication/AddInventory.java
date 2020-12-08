@@ -25,14 +25,11 @@ import java.util.Map;
 /**Adds inventory item to Firestore collection.
  * @author Team-5
  */
-public class AddInventory extends AppCompatActivity implements LifecycleObserver, View.OnClickListener {
+public class AddInventory extends AppCompatActivity implements LifecycleObserver {
 
     private static final String APP_PREFS = "TEMPORARY_FORM_APPLICATION_PREFERENCES";
     private final String TAG = "ADD INVENTORY ACTIVITY";
     private static final int GALLERY_CODE = 1;
-    private ImageView imageView;
-    private ImageView addPhotoButton;
-    private Uri imageUri;
     HashMap<String, List<String>> categoryInfo;
     List<String> categoryName;
 
@@ -42,11 +39,6 @@ public class AddInventory extends AppCompatActivity implements LifecycleObserver
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_inventory);
 
-        imageView = findViewById(R.id.imageView5);
-        addPhotoButton = findViewById(R.id.imageButton5);
-        addPhotoButton.setOnClickListener(this);
-
-        addPhotoButton.setVisibility(View.VISIBLE);
 
         final Spinner dropdown = findViewById(R.id.category);
 
@@ -83,26 +75,6 @@ public class AddInventory extends AppCompatActivity implements LifecycleObserver
 
     }
 
-   public void onClick(View v) {
-       switch (v.getId()) {
-            case R.id.imageButton5:
-               Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
-               galleryIntent.setType("image/*");
-                startActivityForResult(galleryIntent, GALLERY_CODE);
-                break;
-        }
-    }
-
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == GALLERY_CODE && resultCode == RESULT_OK) {
-            if (data != null) {
-                imageUri = data.getData(); // we have the actual path to the image
-                imageView.setImageURI(imageUri);//show image
-                addPhotoButton.setVisibility(View.INVISIBLE);
-            }
-        }
-    }
 
     @Override
     protected void onPause() {
@@ -206,9 +178,6 @@ public class AddInventory extends AppCompatActivity implements LifecycleObserver
         transaction.createTransaction(itemName, qty, qty);
     }
 
-    public void addImage(View view) {
-
-    }
 
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
