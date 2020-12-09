@@ -32,10 +32,15 @@ public class TakeInventoryDataPump {
             String itemName = data.get(i).get("ItemName").toString();
             String quantity = data.get(i).get("itemQuantity").toString();
             String unit = data.get(i).get("itemUnit").toString();
+            String cost = data.get(i).get("itemCost").toString();
+            String price = data.get(i).get("itemPrice").toString();
 
             List<String> item = new ArrayList<String>();
             item.add(ID);
             item.add(quantity);
+            item.add(unit);
+            item.add(cost);
+            item.add(price);
             takeInventoryDetail.put(itemName+" "+unit, item);
         }
 

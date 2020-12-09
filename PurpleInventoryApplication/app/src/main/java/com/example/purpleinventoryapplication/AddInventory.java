@@ -199,11 +199,10 @@ public class AddInventory extends AppCompatActivity implements LifecycleObserver
         item.createItem(itemName, price, cost, quantity, unit, category);
         item.writeData();
 
-        //creates new transaction to record changes if quantity changes.
-        int qty = Integer.parseInt(quantity);
+        //creates new transaction to record changes.
         Log.d(TAG,"Creating a transaction");
         Transaction transaction = new Transaction(this);
-        transaction.createTransaction(itemName, qty, qty);
+        transaction.createTransaction(itemName, unit, 0, Integer.parseInt(quantity), Double.parseDouble(cost), Double.parseDouble(price) );
     }
 
     public void addImage(View view) {

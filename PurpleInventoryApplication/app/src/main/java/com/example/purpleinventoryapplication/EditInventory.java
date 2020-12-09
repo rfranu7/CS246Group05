@@ -135,7 +135,7 @@ public class EditInventory extends AppCompatActivity {
         if(itemFinalQuantity!= itemOriginalQty) {
             Log.d(TAG,"Creating a transaction");
             Transaction transaction = new Transaction(this);
-            transaction.createTransaction(itemName, itemOriginalQty, itemFinalQuantity);
+            transaction.createTransaction(itemName, unit, itemOriginalQty, itemFinalQuantity, Double.parseDouble(cost), Double.parseDouble(price));
         }
     }
 

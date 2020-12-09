@@ -37,6 +37,8 @@ public class Transaction {
     String itemName;
     int originalQuantity;
     int finalQuantity;
+    double cost;
+    double price;
     boolean success;
 
     private VolleyOnEventListener<JSONObject> mCallBack;
@@ -56,12 +58,13 @@ public class Transaction {
      * @param itemName
      * @return transactionId
      */
-    public String setTransactionId(String itemName) {
+    public String setTransactionId(String itemName, String itemUnit) {
         Date date = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
 
-        String transactionId = itemName +"-"+ calendar.get(Calendar.MONTH)
+        String transactionId = itemName +"-"+itemUnit
+                +"-"+ (calendar.get(Calendar.MONTH)+1)
                 +"-"+ calendar.get(Calendar.DAY_OF_MONTH)
                 +"-"+ calendar.get(Calendar.YEAR);
         return transactionId;
@@ -73,10 +76,12 @@ public class Transaction {
      * @param originalQuantity
      * @param finalQuantity
      */
-    public void setProperties(String itemName, int originalQuantity, int finalQuantity){
+    public void setProperties(String itemName, int originalQuantity, int finalQuantity, double cost, double price){
         this.itemName = itemName;
         this.originalQuantity = originalQuantity;
         this.finalQuantity = finalQuantity;
+        this.cost = cost;
+        this.price = price;
     }
 
     //todo
@@ -122,10 +127,10 @@ public class Transaction {
      * @param originalQuantity
      * @param finalQuantity
      */
-    public void createTransaction(final String itemName, int originalQuantity, int finalQuantity) {
+    public void createTransaction(final String itemName, final String itemUnit, int originalQuantity, int finalQuantity, double cost, double price) {
         final String TAG = "Create Transaction"; // TAG USED FOR LOGGING
-        final String transID = setTransactionId(itemName);
-        setProperties(itemName, originalQuantity, finalQuantity);
+        final String transID = setTransactionId(itemName, itemUnit);
+        setProperties(itemName, originalQuantity, finalQuantity, cost, price);
 
         final DocumentReference docId = db.collection("transactions").document(transID);
         docId.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -135,31 +140,76 @@ public class Transaction {
                     final DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         Log.i(TAG, "DocumentSnapshot data: " + document.getData());
-                        ArrayList<Date> transactionRecords = new ArrayList<>();
+                        ArrayList<Map<String, Object>> prevTransaction = (ArrayList<Map<String, Object>>) document.get("transaction");
+                        Map<String, Object> transactionItems = new HashMap<>();
+                        int difference = 0;
 
-                        ArrayList<Date> dates = (ArrayList<Date>) document.get("updated");
-                        for(int i=0; i < dates.size(); i++){
-                            transactionRecords.add(dates.get(i));
+                        // Identify the type based on the number of final quantity
+                        if(Transaction.this.originalQuantity == Transaction.this.finalQuantity) {
+                            return; // No change in quantity means no transaction made.
+                        } else if(Transaction.this.originalQuantity < Transaction.this.finalQuantity) {
+                            transactionItems.put("type", "stock");
+                            difference = Transaction.this.finalQuantity - Transaction.this.originalQuantity;
+                        } else {
+                            transactionItems.put("type", "sale");
+                            difference = Transaction.this.originalQuantity - Transaction.this.finalQuantity;
                         }
-                        transactionRecords.add(new Date());
+                        transactionItems.put("date", new Date());
+                        transactionItems.put("difference", difference);
+
+                        double totalCost = Transaction.this.cost*difference;
+                        transactionItems.put("totalCost", totalCost);
+
+                        double totalPrice = Transaction.this.price*difference;
+                        transactionItems.put("totalPrice", totalPrice);
+
+                        prevTransaction.add(transactionItems);
 
                         Map<String, Object> transaction = new HashMap<>();
                         transaction.put("finalQuantity", Transaction.this.finalQuantity);
-                        transaction.put("updated", transactionRecords);
+                        transaction.put("transaction", prevTransaction);
 
+                        Log.d(TAG, "calling update");
                         updateDataById(transID, transaction);
                     } else {
                         Log.d(TAG, "No such document");
-                        ArrayList<Date> transactionRecords = new ArrayList<>();
-                        transactionRecords.add(new Date());
+                        ArrayList<Map<String, Object>> transactionRecords = new ArrayList<>();
+                        Map<String, Object> transactionItems = new HashMap<>();
+                        int difference = 0;
+
+                        Log.d(TAG, String.valueOf(Transaction.this.originalQuantity));
+                        Log.d(TAG, String.valueOf(Transaction.this.finalQuantity));
+
+                        // Identify the type based on the number of final quantity
+                        if(Transaction.this.originalQuantity == Transaction.this.finalQuantity) {
+                            return; // No change in quantity means no transaction made.
+                        } else if(Transaction.this.originalQuantity < Transaction.this.finalQuantity) {
+                            transactionItems.put("type", "stock");
+                            difference = Transaction.this.finalQuantity - Transaction.this.originalQuantity;
+                        } else {
+                            transactionItems.put("type", "sale");
+                            difference = Transaction.this.originalQuantity - Transaction.this.finalQuantity;
+                        }
+                        transactionItems.put("date", new Date());
+                        transactionItems.put("difference", difference);
+                        transactionItems.put("finalQuantity", Transaction.this.finalQuantity);
+
+                        double totalCost = Transaction.this.cost*difference;
+                        transactionItems.put("totalCost", totalCost);
+
+                        double totalPrice = Transaction.this.price*difference;
+                        transactionItems.put("totalPrice", totalPrice);
+
+                        transactionRecords.add(transactionItems);
 
                         Map<String, Object> transaction = new HashMap<>();
                         transaction.put("itemName", Transaction.this.itemName);
                         transaction.put("originalQuantity", Transaction.this.originalQuantity);
                         transaction.put("finalQuantity", Transaction.this.finalQuantity);
                         transaction.put("created",new Date());
-                        transaction.put("updated", transactionRecords);
+                        transaction.put("transaction", transactionRecords);
 
+                        Log.d(TAG, "calling write");
                         writeData(transID, transaction);
                     }
                 } else {

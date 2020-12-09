@@ -99,11 +99,15 @@ public class TakeInventoryAdapter extends BaseAdapter {
                 String itemTitle = (String) getGroup((int) tag);
                 String itemName = itemTitle.split(" ")[0];
                 String itemUnit = itemTitle.split(" ")[1];
+
+                List<String> item = getDetails(itemTitle);
+                double cost = Double.parseDouble(item.get(3));
+                double price = Double.parseDouble(item.get(4));
+
                 Log.d("METHOD CLICK", itemName);
 
                 int editId = context.getResources().getIdentifier(tag.toString(), "id", context.getPackageName());
                 EditText editQty = (EditText) theView.findViewById(editId);
-                EditText editQty1 = (EditText) theView.findViewById(R.id.editQuantity);
 
                 int OGQuantity = Integer.parseInt(editQty.getText().toString());
                 int newQuantity = OGQuantity + 1;
@@ -117,7 +121,7 @@ public class TakeInventoryAdapter extends BaseAdapter {
                 //creates new transaction to record changes if quantity changes.
                 Log.d("METHOD CLICK","Creating a transaction");
                 Transaction transaction = new Transaction((Activity)TakeInventoryAdapter.this.context);
-                transaction.createTransaction(itemName, OGQuantity, newQuantity);
+                transaction.createTransaction(itemName, itemUnit, OGQuantity, newQuantity, cost, price);
 
                 // SET UPDATED VALUE
                 Log.d("METHOD CLICK", String.valueOf(editId));
@@ -134,11 +138,15 @@ public class TakeInventoryAdapter extends BaseAdapter {
                 String itemTitle = (String) getGroup((int) tag);
                 String itemName = itemTitle.split(" ")[0];
                 String itemUnit = itemTitle.split(" ")[1];
+
+                List<String> item = getDetails(itemTitle);
+                double cost = Double.parseDouble(item.get(3));
+                double price = Double.parseDouble(item.get(4));
+
                 Log.d("METHOD CLICK", itemName);
 
                 int editId = context.getResources().getIdentifier(tag.toString(), "id", context.getPackageName());
                 EditText editQty = (EditText) theView.findViewById(editId);
-                EditText editQty1 = (EditText) theView.findViewById(R.id.editQuantity);
 
                 int OGQuantity = Integer.parseInt(editQty.getText().toString());
                 int newQuantity = OGQuantity - 1;
@@ -152,7 +160,7 @@ public class TakeInventoryAdapter extends BaseAdapter {
                 //creates new transaction to record changes if quantity changes.
                 Log.d("METHOD CLICK","Creating a transaction");
                 Transaction transaction = new Transaction((Activity)TakeInventoryAdapter.this.context);
-                transaction.createTransaction(itemName, OGQuantity, newQuantity);
+                transaction.createTransaction(itemName, itemUnit, OGQuantity, newQuantity, cost, price);
 
                 // SET THE TEXT TO UPDATED VALUE
                 Log.d("METHOD CLICK", String.valueOf(editId));

@@ -6,110 +6,97 @@
     android:layout_height="match_parent"
     tools:context=".SendReport">
 
-    <EditText
-        android:id="@+id/reportEmail"
-        android:layout_width="300dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="56dp"
-        android:layout_marginTop="7dp"
-        android:layout_marginEnd="56dp"
-        android:layout_marginBottom="48dp"
-        android:background="@drawable/edit_text_border"
-        android:ems="10"
-        android:fontFamily="@font/open_sans"
-        android:hint="@string/reportEmail"
-        android:inputType="textEmailAddress"
-        android:paddingLeft="5dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView13"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView11" />
-
-    <Button
-        android:id="@+id/sendReportButton"
-        android:layout_width="145dp"
-        android:layout_height="51dp"
-        android:layout_marginBottom="88dp"
-        android:background="@drawable/rounded_button"
-        android:fontFamily="@font/oswald"
-        android:onClick="sendReport"
-        android:text="Send Report"
-        android:textColor="#FFFFFF"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <TextView
         android:id="@+id/textView11"
         android:layout_width="295dp"
         android:layout_height="25dp"
-        android:layout_marginStart="56dp"
-        android:layout_marginTop="240dp"
-        android:layout_marginEnd="56dp"
+        android:layout_marginTop="28dp"
         android:fontFamily="@font/open_sans"
         android:text="Email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textView12"
-        android:layout_width="300dp"
-        android:layout_height="27dp"
-        android:layout_marginBottom="8dp"
-        android:fontFamily="@font/open_sans"
-        android:text="End Date"
-        app:layout_constraintBottom_toTopOf="@+id/end_date"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.477"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <EditText
-        android:id="@+id/end_date"
+        android:id="@+id/reportEmail"
         android:layout_width="300dp"
         android:layout_height="45dp"
-        android:layout_marginBottom="48dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/edit_text_border"
         android:ems="10"
         android:fontFamily="@font/open_sans"
-        android:hint="@string/end_date"
-        android:inputType="textPersonName"
+        android:hint="@string/reportEmail"
+        android:inputType="textEmailAddress"
         android:paddingLeft="5dp"
-        app:layout_constraintBottom_toTopOf="@+id/sendReportButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.477"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <EditText
-        android:id="@+id/start_date"
-        android:layout_width="300dp"
-        android:layout_height="45dp"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/edit_text_border"
-        android:ems="10"
-        android:fontFamily="@font/open_sans"
-        android:hint="@string/start_date"
-        android:inputType="textPersonName"
-        android:paddingLeft="5dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView12"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.477"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
     <TextView
         android:id="@+id/textView13"
         android:layout_width="300dp"
         android:layout_height="25dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="24dp"
         android:fontFamily="@font/open_sans"
         android:text="Start Date"
-        app:layout_constraintBottom_toTopOf="@+id/start_date"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.477"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/reportEmail"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/reportEmail" />
+
+    <EditText
+        android:id="@+id/start_date"
+        android:layout_width="300dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/edit_text_border"
+        android:ems="10"
+        android:fontFamily="@font/open_sans"
+        android:hint="@string/start_date"
+        android:inputType="date"
+        android:paddingLeft="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+
+    <EditText
+        android:id="@+id/end_date"
+        android:layout_width="300dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/edit_text_border"
+        android:ems="10"
+        android:fontFamily="@font/open_sans"
+        android:hint="@string/end_date"
+        android:inputType="date"
+        android:paddingLeft="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView12" />
+
+    <Button
+        android:id="@+id/sendReportButton"
+        android:layout_width="145dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/rounded_button"
+        android:fontFamily="@font/oswald"
+        android:onClick="sendReport"
+        android:text="Send Report"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/end_date" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="300dp"
+        android:layout_height="27dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/open_sans"
+        android:text="End Date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/start_date" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
