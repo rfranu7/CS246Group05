@@ -108,7 +108,6 @@ public class TakeInventoryAdapter extends BaseAdapter {
 
                 int editId = context.getResources().getIdentifier(tag.toString(), "id", context.getPackageName());
                 EditText editQty = (EditText) theView.findViewById(editId);
-                EditText editQty1 = (EditText) theView.findViewById(R.id.editQuantity);
 
                 int OGQuantity = Integer.parseInt(editQty.getText().toString());
                 int newQuantity = OGQuantity + 1;
@@ -148,7 +147,6 @@ public class TakeInventoryAdapter extends BaseAdapter {
 
                 int editId = context.getResources().getIdentifier(tag.toString(), "id", context.getPackageName());
                 EditText editQty = (EditText) theView.findViewById(editId);
-                EditText editQty1 = (EditText) theView.findViewById(R.id.editQuantity);
 
                 int OGQuantity = Integer.parseInt(editQty.getText().toString());
                 int newQuantity = OGQuantity - 1;
