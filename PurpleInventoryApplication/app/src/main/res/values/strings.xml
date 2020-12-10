@@ -34,5 +34,6 @@
     <string name="productTitle">Product</string>
     <string name="incrementTitle">Increment</string>
     <string name="currentQuantity">1</string>
+    <string name="action_logout">logout</string>
 
 </resources>
