@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -40,9 +41,10 @@ public class Report {
         this.totalRevenue = 0;
     }
 
-    public void getReportByDate(Date reportStartDate, Date reportEndDate) {
+    public void getReportByDate(Date reportStartDate, Date reportEndDate, final VolleyStringObject callBack) {
         final String TAG = "GET REPORT"; // TAG USED FOR LOGGING
         Date endDate = new Date(reportEndDate.getYear(), reportEndDate.getMonth(), (reportEndDate.getDate()+1));
+
 
         Log.d(TAG, reportStartDate.toString());
         Log.d(TAG, endDate.toString());
@@ -79,6 +81,14 @@ public class Report {
                             Log.d(TAG, String.valueOf(Report.this.totalCost));
                             Log.d(TAG, String.valueOf(Report.this.totalRevenue));
                             display(stockTransactions, saleTransactions);
+
+
+                            Map<String, Object> reportFields = new HashMap<>();
+                            reportFields.put("stockTransactions", stockTransactions);
+                            reportFields.put("saleTransactions", saleTransactions);
+                            reportFields.put("totalCost", Report.this.totalCost);
+                            reportFields.put("totalRevenue", Report.this.totalRevenue);
+                            callBack.onGetDataByIdSuccess(reportFields);
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
