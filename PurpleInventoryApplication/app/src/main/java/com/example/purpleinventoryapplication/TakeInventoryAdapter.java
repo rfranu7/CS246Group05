@@ -66,8 +66,18 @@ public class TakeInventoryAdapter extends BaseAdapter {
         final String itemId = item.get(0);
         final String itemQty = item.get(1);
 
+        int textViewId = context.getResources().getIdentifier(String.valueOf(Integer.parseInt("6342" + position)), "id", context.getPackageName());
+        TextView currentQuantity = (TextView) convertView.findViewById(R.id.currentQuantity);
+
         TextView listTitleTextView = (TextView) convertView.findViewById(R.id.itemText);
         listTitleTextView.setText(listTitle);
+
+        if (currentQuantity == null) {
+            currentQuantity = (TextView) convertView.findViewById(textViewId);
+        } else {
+            currentQuantity.setId(Integer.parseInt("6342" + position));
+            currentQuantity.setText(itemQty);
+        }
 
         int editTextId = context.getResources().getIdentifier(String.valueOf(position), "id", context.getPackageName());
         EditText editQty = (EditText) convertView.findViewById(R.id.editIncrement);
@@ -75,8 +85,8 @@ public class TakeInventoryAdapter extends BaseAdapter {
         if (editQty == null) {
             editQty = (EditText) convertView.findViewById(editTextId);
         } else {
-            editQty.setId(position);
-            editQty.setText(itemQty);
+            editQty.setId((position+1));
+            editQty.setText("1");
         }
 
         editQty.setTag(itemId);
@@ -84,19 +94,20 @@ public class TakeInventoryAdapter extends BaseAdapter {
         Log.d("EDIT TEXT ID", String.valueOf(editQty.getId()));
 
         Button addBtn = (Button) convertView.findViewById(R.id.addInventory);
-        addBtn.setTag(position);
+        addBtn.setTag((position+1));
 
         Button subBtn = (Button) convertView.findViewById(R.id.subtractInventory);
-        subBtn.setTag(position);
+        subBtn.setTag((position+1));
 
         addBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
                 // GET THE EDIT TEXT TO UPDATED VALUE
                 Object tag = v.getTag();
+                int position = Integer.parseInt(tag.toString()) - 1;
                 Log.d("METHOD CLICK", tag.toString());
 
-                String itemTitle = (String) getGroup((int) tag);
+                String itemTitle = (String) getGroup(position);
                 String itemName = itemTitle.split(" ")[0];
                 String itemUnit = itemTitle.split(" ")[1];
 
@@ -106,11 +117,14 @@ public class TakeInventoryAdapter extends BaseAdapter {
 
                 Log.d("METHOD CLICK", itemName);
 
+                int textViewId = context.getResources().getIdentifier(String.valueOf(Integer.parseInt("6342" + position)), "id", context.getPackageName());
+                TextView textView = (TextView) theView.findViewById(textViewId);
+
                 int editId = context.getResources().getIdentifier(tag.toString(), "id", context.getPackageName());
                 EditText editQty = (EditText) theView.findViewById(editId);
 
-                int OGQuantity = Integer.parseInt(editQty.getText().toString());
-                int newQuantity = OGQuantity + 1;
+                int OGQuantity = Integer.parseInt(textView.getText().toString());
+                int newQuantity = OGQuantity + Integer.parseInt(editQty.getText().toString());
 
                 Inventory inventory = new Inventory((Activity)TakeInventoryAdapter.this.context);
                 Map<String, Object> addQuantity = new HashMap<>();
@@ -125,7 +139,7 @@ public class TakeInventoryAdapter extends BaseAdapter {
 
                 // SET UPDATED VALUE
                 Log.d("METHOD CLICK", String.valueOf(editId));
-                editQty.setText(String.valueOf(newQuantity));
+                textView.setText(String.valueOf(newQuantity));
             }
         });
         subBtn.setOnClickListener(new View.OnClickListener() {
@@ -133,9 +147,10 @@ public class TakeInventoryAdapter extends BaseAdapter {
 
                 // GET THE EDIT TEXT TO UPDATED VALUE
                 Object tag = v.getTag();
+                int position = Integer.parseInt(tag.toString()) - 1;
                 Log.d("METHOD CLICK", tag.toString());
 
-                String itemTitle = (String) getGroup((int) tag);
+                String itemTitle = (String) getGroup(position);
                 String itemName = itemTitle.split(" ")[0];
                 String itemUnit = itemTitle.split(" ")[1];
 
@@ -145,11 +160,14 @@ public class TakeInventoryAdapter extends BaseAdapter {
 
                 Log.d("METHOD CLICK", itemName);
 
+                int textViewId = context.getResources().getIdentifier(String.valueOf(Integer.parseInt("6342" + position)), "id", context.getPackageName());
+                TextView textView = (TextView) theView.findViewById(textViewId);
+
                 int editId = context.getResources().getIdentifier(tag.toString(), "id", context.getPackageName());
                 EditText editQty = (EditText) theView.findViewById(editId);
 
-                int OGQuantity = Integer.parseInt(editQty.getText().toString());
-                int newQuantity = OGQuantity - 1;
+                int OGQuantity = Integer.parseInt(textView.getText().toString());
+                int newQuantity = OGQuantity - Integer.parseInt(editQty.getText().toString());
 
                 Inventory inventory = new Inventory((Activity)TakeInventoryAdapter.this.context);
                 Map<String, Object> addQuantity = new HashMap<>();
@@ -164,7 +182,7 @@ public class TakeInventoryAdapter extends BaseAdapter {
 
                 // SET THE TEXT TO UPDATED VALUE
                 Log.d("METHOD CLICK", String.valueOf(editId));
-                editQty.setText(String.valueOf(newQuantity));
+                textView.setText(String.valueOf(newQuantity));
             }
         });
 

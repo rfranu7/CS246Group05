@@ -31,7 +31,7 @@
         android:fontFamily="@font/open_sans"
         android:gravity="center_horizontal|center_vertical"
         android:hint="@string/quantity"
-        android:inputType="textPersonName"
+        android:inputType="number"
         app:layout_constraintBottom_toBottomOf="@+id/itemText"
         app:layout_constraintEnd_toStartOf="@+id/addInventory"
         app:layout_constraintHorizontal_bias="1.0"
@@ -72,11 +72,12 @@
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:ems="10"
+        android:gravity="center"
         android:text="@string/currentQuantity"
         android:textAlignment="center"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/itemText"
         app:layout_constraintStart_toStartOf="@+id/itemText"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/itemText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
