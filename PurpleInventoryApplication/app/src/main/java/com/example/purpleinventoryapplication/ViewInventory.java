@@ -23,6 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 /**
  * @author Brian Brown, Taelor McBride, Randeep Ranu
@@ -34,7 +35,7 @@ public class ViewInventory extends AppCompatActivity {
     ExpandableListView expandableListView;
     ExpandableListAdapter expandableListAdapter;
     List<String> expandableListTitle;
-    HashMap<String, List<String>> expandableListDetail;
+    TreeMap<String, List<String>> expandableListDetail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

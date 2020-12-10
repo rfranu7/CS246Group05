@@ -13,13 +13,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ExpandableListView;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /** main page for inventory access.
  * @author Team-05
@@ -27,6 +31,7 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
+    private final String TAG = "MAIN INVENTORY ACTIVITY";
 
     @Override
 
@@ -34,9 +39,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mAuth = FirebaseAuth.getInstance();
+
+        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        long expired = preferences.getLong("ExpiredDate", -1);
+        if(expired > System.currentTimeMillis()){
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.remove("RanBefore");
+            editor.commit();
+        }
     }
 
-    public void onStart() {
+    protected void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and redirects accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -59,6 +72,11 @@ public class MainActivity extends AppCompatActivity {
                 currUser.setUserId(uid, this);
                 currUser.getDataById();
             }
+        }
+
+        if(isFirstTime()){
+            Inventory inventory = new Inventory(this);
+            inventory.getLowInventory();
         }
     }
 
@@ -136,5 +154,23 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
+    }
+
+    /***
+     * Checks that application runs first time and write flag at SharedPreferences
+     * @return true if 1st time
+     */
+    private boolean isFirstTime()
+    {
+        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        boolean ranBefore = preferences.getBoolean("RanBefore", false);
+        if (!ranBefore) {
+            // first time
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean("RanBefore", true);
+            editor.putLong("ExpiredDate", System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(60));
+            editor.commit();
+        }
+        return !ranBefore;
     }
 }

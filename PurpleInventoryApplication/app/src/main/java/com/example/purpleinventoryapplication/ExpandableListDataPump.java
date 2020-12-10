@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * @author Randeep Ranu - rfranu7@gmail.com
@@ -20,14 +21,13 @@ public class ExpandableListDataPump {
      * @param data
      * @return expandableListDetail (HashMap<String, List<String>>)
      */
-    public static HashMap<String, List<String>> getData(List<Map<String, Object>> data) {
+    public static TreeMap<String, List<String>> getData(List<Map<String, Object>> data) {
         final String TAG = "GET DATA FOR TABLE";
-        final HashMap<String, List<String>> expandableListDetail = new HashMap<String, List<String>>();
+        final TreeMap<String, List<String>> expandableListDetail = new TreeMap<String, List<String>>();
 
         Log.d(TAG, "Expandable List Data Started");
 
         for(int i=0; i < data.size(); i++) {
-            Log.d(TAG, "Start looping");
             String ID = data.get(i).get("ID").toString();
             String itemName = data.get(i).get("ItemName").toString();
             String quantity = data.get(i).get("itemQuantity").toString();
@@ -35,6 +35,7 @@ public class ExpandableListDataPump {
             String unit = data.get(i).get("itemUnit").toString();
             String cost = data.get(i).get("itemCost").toString();
             String price = data.get(i).get("itemPrice").toString();
+            Log.d(TAG, itemName);
 
             List<String> item = new ArrayList<String>();
             item.add(ID);
@@ -50,6 +51,7 @@ public class ExpandableListDataPump {
         Log.d(TAG, "Done looping");
 
         Log.d(TAG, "returning list");
+        Log.d(TAG, expandableListDetail.toString());
         return expandableListDetail;
     }
 }

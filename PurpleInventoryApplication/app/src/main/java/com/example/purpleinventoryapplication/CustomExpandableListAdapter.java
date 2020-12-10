@@ -2,6 +2,8 @@ package com.example.purpleinventoryapplication;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.TreeMap;
+
 import android.content.Context;
 import android.graphics.Typeface;
 import android.util.Log;
@@ -22,9 +24,9 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Context context;
     private List<String> expandableListTitle;
-    private HashMap<String, List<String>> expandableListDetail;
+    private TreeMap<String, List<String>> expandableListDetail;
 
-    public CustomExpandableListAdapter(Context context, List<String> expandableListTitle,HashMap<String, List<String>> expandableListDetail) {
+    public CustomExpandableListAdapter(Context context, List<String> expandableListTitle,TreeMap<String, List<String>> expandableListDetail) {
         this.context = context;
         this.expandableListTitle = expandableListTitle;
         this.expandableListDetail = expandableListDetail;
@@ -90,6 +92,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
         TextView listTitleTextView = (TextView) convertView.findViewById(R.id.listTitle);
         listTitleTextView.setTypeface(null, Typeface.BOLD);
         listTitleTextView.setText(listTitle);
+        Log.d("ADAPTER", listTitle);
 
         Button editBtn = (Button) convertView.findViewById(R.id.buttonEdit);
         editBtn.setTag(getChild(listPosition, 0));
