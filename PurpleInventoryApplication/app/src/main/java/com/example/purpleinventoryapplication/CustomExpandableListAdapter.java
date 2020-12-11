@@ -4,12 +4,13 @@ import java.util.HashMap;
 import java.util.List;
 import android.content.Context;
 import android.graphics.Typeface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
+
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 /**
@@ -91,10 +92,10 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
         listTitleTextView.setTypeface(null, Typeface.BOLD);
         listTitleTextView.setText(listTitle);
 
-        Button editBtn = (Button) convertView.findViewById(R.id.buttonEdit);
+        ImageButton editBtn = (ImageButton) convertView.findViewById(R.id.buttonEdit);
         editBtn.setTag(getChild(listPosition, 0));
 
-        Button delBtn = (Button) convertView.findViewById(R.id.buttonDelete);
+        ImageButton delBtn = (ImageButton) convertView.findViewById(R.id.buttonDelete);
         delBtn.setTag(getChild(listPosition, 0));
 
         return convertView;
