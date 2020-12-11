@@ -1,8 +1,10 @@
 package com.example.purpleinventoryapplication;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -21,6 +23,7 @@ import com.google.common.primitives.Ints;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -160,7 +163,8 @@ public class Inventory {
         final String TAG = "Get all inventory Items"; // TAG USED FOR LOGGING
 
 
-        db.collection("items").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("items").orderBy("ItemName", Query.Direction.ASCENDING).get()
+            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
@@ -262,6 +266,51 @@ public class Inventory {
                     } else {
                         Log.d(TAG, "No such document");
                     }
+                } else {
+                    Log.w(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+    }
+
+    public void getLowInventory() {
+        final String TAG = "LOW Inventory"; // TAG USED FOR LOGGING
+
+        db.collection("items").whereLessThanOrEqualTo("itemQuantity",10).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    final StringBuilder sb = new StringBuilder();
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        if (document.exists()) {
+                            Log.i(TAG, "DocumentSnapshot data: " + document.getData());
+
+                            String ItemName = document.get("ItemName").toString();
+                            String itemUnit = document.get("itemUnit").toString();
+                            String itemQuantity = document.get("itemQuantity").toString();
+
+                            sb.append(ItemName+" "+itemUnit+" - "+itemQuantity);
+                            sb.append("\n");
+                        }
+                        else {
+                            Log.d(TAG, "No such document");
+                        }
+                    }
+                    activity.runOnUiThread(new Runnable() {
+                        public void run() {
+
+                            AlertDialog alert = new AlertDialog.Builder(Inventory.this.activity).create();
+                            alert.setTitle("You are running low on the following items");
+                            alert.setMessage(sb.toString());
+                            alert.setButton(AlertDialog.BUTTON_POSITIVE,"OK",new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+                            alert.show();
+                        }
+                    });
                 } else {
                     Log.w(TAG, "get failed with ", task.getException());
                 }
