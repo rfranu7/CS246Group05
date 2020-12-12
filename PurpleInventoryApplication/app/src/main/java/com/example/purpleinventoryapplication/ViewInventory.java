@@ -8,10 +8,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -66,7 +66,7 @@ public class ViewInventory extends AppCompatActivity {
      * @param view
      */
     public void editInventory(View view) {
-        Button editBtn = (Button) view.findViewById(R.id.buttonEdit);
+        ImageButton editBtn = (ImageButton) view.findViewById(R.id.buttonEdit);
         Object tag = editBtn.getTag();
         Log.d(TAG, tag.toString());
         Intent intent = new Intent(ViewInventory.this, EditInventory.class);
@@ -79,7 +79,7 @@ public class ViewInventory extends AppCompatActivity {
      * @param view
      */
     public void deleteInventory(View view) {
-        Button delBtn = (Button) view.findViewById(R.id.buttonDelete);
+        ImageButton delBtn = (ImageButton) view.findViewById(R.id.buttonDelete);
         Object tag = delBtn.getTag();
         Inventory item = new Inventory(this);
         item.getDataName(tag.toString());
