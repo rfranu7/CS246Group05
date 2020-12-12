@@ -1,9 +1,11 @@
 package com.example.purpleinventoryapplication;
 
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -20,6 +22,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,12 +43,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mAuth = FirebaseAuth.getInstance();
 
-        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences("ALERT", Context.MODE_PRIVATE);
         long expired = preferences.getLong("ExpiredDate", -1);
-        if(expired > System.currentTimeMillis()){
+        Log.d("ALERTDEL", String.valueOf(expired));
+        Log.d("ALERTDEL", String.valueOf(System.currentTimeMillis()));
+        if(expired < System.currentTimeMillis()){
             SharedPreferences.Editor editor = preferences.edit();
             editor.remove("RanBefore");
-            editor.commit();
+            editor.apply();
         }
     }
 
@@ -73,8 +78,9 @@ public class MainActivity extends AppCompatActivity {
                 currUser.getDataById();
             }
         }
-
+        Log.d("ALERT","CHECK FIRST TIME");
         if(isFirstTime()){
+            Log.d("ALERT","first time");
             Inventory inventory = new Inventory(this);
             inventory.getLowInventory();
         }
@@ -85,19 +91,45 @@ public class MainActivity extends AppCompatActivity {
         inflater.inflate(R.menu.menu, menu);
         return true;
     }
-
+    /**
+     * Deletes shared preferences.
+     * @param item
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_logout:
-                mAuth.signOut();
 
-                // Delete shared preferences
-                SharedPreferences sharedPreferences = getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE);
-                sharedPreferences.edit().clear().apply();
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case DialogInterface.BUTTON_POSITIVE:
+                                Log.d(TAG, "yes clicked.");
+                                mAuth.signOut();
 
-                Intent intent = new Intent(this, LoginActivity.class);
-                startActivity(intent);
+                                // Delete shared preferences
+                                SharedPreferences sharedPreferences = getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE);
+                                sharedPreferences.edit().clear().apply();
+
+                                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                                startActivity(intent);
+                                break;
+
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                dialog.dismiss();
+                                break;
+                        }
+                    }
+                };
+
+                AlertDialog alert = new AlertDialog.Builder(this).create();
+                alert.setTitle("We're going to miss you.");
+                alert.setMessage("Are you sure you want to logout?");
+                alert.setButton(AlertDialog.BUTTON_POSITIVE, "YES", dialogClickListener);
+                alert.setButton(AlertDialog.BUTTON_NEGATIVE, "NO", dialogClickListener);
+                alert.show();
+
                 return true;
 
             default:
@@ -141,35 +173,30 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    /**
-     * Deletes shared preferences.
-     * @param view
-     */
-    public void logout(View view) {
-        mAuth.signOut();
-
-        // Delete shared preferences
-        SharedPreferences sharedPreferences = getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE);
-        sharedPreferences.edit().clear().apply();
-
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-    }
-
     /***
      * Checks that application runs first time and write flag at SharedPreferences
      * @return true if 1st time
      */
     private boolean isFirstTime()
     {
-        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences("ALERT", Context.MODE_PRIVATE);;
         boolean ranBefore = preferences.getBoolean("RanBefore", false);
+        Log.d("ALERT", String.valueOf(ranBefore));
         if (!ranBefore) {
             // first time
+
+            Calendar cal = Calendar.getInstance(); //current date and time
+            cal.add(Calendar.DAY_OF_MONTH, 1); //add a day
+            cal.set(Calendar.HOUR_OF_DAY, 7); //set hour to last hour
+            cal.set(Calendar.MINUTE, 0); //set minutes to last minute
+            cal.set(Calendar.SECOND, 0); //set seconds to last second
+            cal.set(Calendar.MILLISECOND, 0); //set milliseconds to last millisecond
+            long millis = cal.getTimeInMillis();
+
             SharedPreferences.Editor editor = preferences.edit();
             editor.putBoolean("RanBefore", true);
-            editor.putLong("ExpiredDate", System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(60));
-            editor.commit();
+            editor.putLong("ExpiredDate", millis);
+            editor.apply();
         }
         return !ranBefore;
     }

@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <paths>
-    <files-path
-        name="data"
-        path="."/>
+    <external-path
+        name="external"
+        path="." />
+    <external-files-path
+        name="external_files"
+        path="." />
+    <cache-path
+        name="cache"
+        path="." />
+    <external-cache-path
+        name="external_cache"
+        path="." />
+    <files-path path="./" name="data" />
 </paths>
