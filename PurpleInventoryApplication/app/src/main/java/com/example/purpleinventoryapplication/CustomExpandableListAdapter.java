@@ -98,9 +98,11 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
         ImageButton editBtn = (ImageButton) convertView.findViewById(R.id.buttonEdit);
         editBtn.setTag(getChild(listPosition, 0));
+        editBtn.setFocusable(false);
 
         ImageButton delBtn = (ImageButton) convertView.findViewById(R.id.buttonDelete);
         delBtn.setTag(getChild(listPosition, 0));
+        delBtn.setFocusable(false);
 
         return convertView;
     }
