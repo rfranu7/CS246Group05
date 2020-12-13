@@ -114,8 +114,8 @@ public class AddInventory extends AppCompatActivity implements LifecycleObserver
         super.onResume();
         SharedPreferences sharedPreferences = getSharedPreferences(APP_PREFS, Context.MODE_PRIVATE);
 
-        Log.d("ON RESUME", sharedPreferences.toString());
-        Log.d("ON RESUME", "RESUMED");
+//        Log.d("ON RESUME", sharedPreferences.toString());
+//        Log.d("ON RESUME", "RESUMED");
 
         String itemName = sharedPreferences.getString("ITEM_NAME", null);
         String quantity = sharedPreferences.getString("ITEM_QUANTITY", null);
@@ -151,7 +151,7 @@ public class AddInventory extends AppCompatActivity implements LifecycleObserver
      */
     public void addItem(View view) {
 
-        Log.d(TAG, "addItem Button clicked.");
+//        Log.d(TAG, "addItem Button clicked.");
 
         EditText nameField = (EditText) findViewById(R.id.itemName);
         EditText quantityField = (EditText) findViewById(R.id.quantity);
@@ -172,7 +172,7 @@ public class AddInventory extends AppCompatActivity implements LifecycleObserver
         item.writeData();
 
         //creates new transaction to record changes.
-        Log.d(TAG,"Creating a transaction");
+//        Log.d(TAG,"Creating a transaction");
         Transaction transaction = new Transaction(this);
         transaction.createTransaction(itemName, unit, 0, Integer.parseInt(quantity), Double.parseDouble(cost), Double.parseDouble(price) );
     }

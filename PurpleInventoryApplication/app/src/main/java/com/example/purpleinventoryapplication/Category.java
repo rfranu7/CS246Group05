@@ -98,7 +98,7 @@ public class Category {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
-                        Log.d(TAG, document.getId() + " => " + document.getData());
+//                        Log.d(TAG, document.getId() + " => " + document.getData());
                         Map<String, Object> categoryMap = document.getData();
                         categoryList.add(categoryMap);
                     }

@@ -77,8 +77,8 @@ public class SendReport extends AppCompatActivity {
 
         formattedDate.append("Report,"+startDateField+"-"+endDateField+"\n\n");
 
-        formattedDate.append("total Cost,"+totalCost+"\n");
-        formattedDate.append("total Revenue,"+totalRevenue+"\n\n");
+        formattedDate.append("Total Cost,"+totalCost+"\n");
+        formattedDate.append("Total Revenue,"+totalRevenue+"\n\n");
 
         formattedDate.append("Name,Date,Stock,Cost,Price,Potential Revenue\n");
         for(int i = 0; i<stockTransactions.size(); i++) {
